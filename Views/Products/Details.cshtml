@@ -1,0 +1,78 @@
+@model PotteryWorkshop.Models.Product
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<!-- Ссылка назад в каталог -->
+<div style="padding: 30px 100px 0 100px;">
+    <a href="/Products" style="text-decoration: none; color: #8B5A3C; font-size: 14px;">← Вернуться в каталог</a>
+</div>
+
+<!-- Основной блок товара -->
+<div style="display: flex; gap: 60px; padding: 40px 100px 80px 100px;">
+
+    <!-- Большое фото (заглушка) -->
+    <div style="width: 500px; flex-shrink: 0;">
+        <div style="height: 500px; background-color: #D4A574; opacity: 0.6; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #5C4033; font-size: 18px;">
+            Фото: @Model.Photo
+        </div>
+    </div>
+
+    <!-- Информация о товаре -->
+    <div style="flex: 1;">
+        
+        @if (Model.Category != null)
+        {
+            <p style="color: #A09080; font-size: 14px; margin: 0 0 10px 0;">@Model.Category.Name</p>
+        }
+
+        <h1 style="color: #5C4033; font-family: Georgia, serif; font-size: 42px; margin: 0 0 20px 0;">
+            @Model.Title
+        </h1>
+
+        <p style="color: #7A6652; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+            @Model.Description
+        </p>
+
+        <!-- Цена -->
+        <div style="margin-bottom: 30px;">
+            <span style="color: #5C4033; font-size: 36px; font-weight: bold; font-family: Georgia, serif;">
+                @Model.Price ₽
+            </span>
+        </div>
+
+        <!-- Наличие -->
+        <div style="margin-bottom: 30px;">
+            @if (Model.Stock > 0)
+            {
+                <span style="color: #2E7D32; font-size: 14px; background: #E8F5E9; padding: 8px 16px; border-radius: 20px;">
+                    ✓ В наличии (@Model.Stock шт.)
+                </span>
+            }
+            else
+            {
+                <span style="color: #C62828; font-size: 14px; background: #FFEBEE; padding: 8px 16px; border-radius: 20px;">
+                    ✗ Нет в наличии
+                </span>
+            }
+        </div>
+
+        <!-- Кнопка "В корзину" -->
+        @if (Model.Stock > 0)
+        {
+            <a href="#" style="display: inline-block; text-decoration: none; background-color: #8B5A3C; color: #F7F1E8; 
+                              padding: 15px 40px; border-radius: 30px; font-size: 16px; font-weight: bold;">
+                Добавить в корзину
+            </a>
+        }
+        else
+        {
+            <span style="display: inline-block; background-color: #E8DFD0; color: #A09080; 
+                         padding: 15px 40px; border-radius: 30px; font-size: 16px;">
+                Товар закончился
+            </span>
+        }
+
+    </div>
+</div>

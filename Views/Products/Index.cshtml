@@ -1,0 +1,79 @@
+@model IEnumerable<PotteryWorkshop.Models.Product>
+
+@{
+    ViewData["Title"] = "Магазин";
+}
+
+<div style="display: flex; gap: 40px; padding: 60px 100px;">
+
+    <!-- Sidebar с категориями -->
+    <div style="width: 250px; flex-shrink: 0;">
+        <h3 style="color: #5C4033; font-family: Georgia, serif; margin-bottom: 20px;">Категории</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="/Products" 
+               style="text-decoration: none; padding: 10px 15px; border-radius: 18px; 
+                      background: @(ViewBag.CurrentCategoryId == null ? "#8B5A3C" : "none"); 
+                      color: @(ViewBag.CurrentCategoryId == null ? "#F7F1E8" : "#5C4033");">
+                Все товары
+            </a>
+            
+            @foreach (var category in ViewBag.Categories)
+            {
+                <a href="/Products?categoryId=@category.Id" 
+                   style="text-decoration: none; padding: 10px 15px; border-radius: 18px; 
+                          background: @(ViewBag.CurrentCategoryId == category.Id ? "#8B5A3C" : "none"); 
+                          color: @(ViewBag.CurrentCategoryId == category.Id ? "#F7F1E8" : "#5C4033");">
+                    @category.Name
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Сетка товаров -->
+    <div style="flex: 1;">
+        <h2 style="color: #5C4033; font-family: Georgia, serif; font-size: 40px; margin-bottom: 40px;">
+            @(ViewBag.CurrentCategoryId == null ? "Все товары" : "Товары категории")
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 30px;">
+            
+            @foreach (var product in Model)
+            {
+                <div style="border: 1px solid #E8DFD0; border-radius: 16px; background: #FFFFFF; overflow: hidden;">
+                    
+                    <!-- Заглушка фото -->
+                    <div style="height: 240px; background-color: #D4A574; opacity: 0.6; display: flex; align-items: center; justify-content: center; color: #5C4033;">
+                        Фото: @product.Photo
+                    </div>
+
+                    <div style="padding: 20px;">
+                        @if (product.Category != null)
+                        {
+                            <p style="color: #A09080; font-size: 12px; margin: 0 0 10px 0;">@product.Category.Name</p>
+                        }
+                        
+                        <h3 style="color: #5C4033; font-family: Georgia, serif; font-size: 18px; margin: 0 0 15px 0;">
+                            @product.Title
+                        </h3>
+                        
+                        <p style="color: #7A6652; font-size: 14px; margin: 0 0 15px 0; line-height: 1.4;">
+                            @product.Description
+                        </p>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #5C4033; font-weight: bold; font-size: 20px;">@product.Price ₽</span>
+                            
+                            <a href="/Products/Details/@product.Id" 
+                               style="text-decoration: none; background-color: #8B5A3C; color: #F7F1E8; 
+                                      padding: 10px 20px; border-radius: 16px; font-size: 14px;">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

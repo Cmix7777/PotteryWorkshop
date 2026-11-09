@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Гончарная мастерская";
+}
+
+<!-- Блок 1: Приветствие (Hero) -->
+<div style="background-color: #5C4033; color: #F7F1E8; padding: 80px 100px; border-radius: 0 0 20px 20px;">
+    <h1 style="font-family: Georgia, serif; font-size: 56px; margin-bottom: 20px;">Создайте свой первый горшок</h1>
+    <p style="font-size: 18px; color: #D4C5B0; max-width: 600px;">
+        Один вечер — и вы увезёте домой чашку, сделанную своими руками. Опыт не нужен.
+    </p>
+    <a href="/Services" style="display: inline-block; margin-top: 30px; background-color: #8B5A3C; color: #F7F1E8; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+        Записаться на занятие
+    </a>
+</div>
+
+<!-- Блок 2: Рекомендуемые изделия из магазина -->
+<div style="padding: 60px 100px;">
+    <h2 style="font-family: Georgia, serif; color: #5C4033; font-size: 36px; margin-bottom: 30px;">Изделия мастерской</h2>
+
+    <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+
+        @if (ViewBag.FeaturedProducts != null)
+        {
+            foreach (var product in ViewBag.FeaturedProducts)
+            {
+                <div style="border: 1px solid #E8DFD0; border-radius: 16px; width: 350px; background: #FFFFFF; overflow: hidden;">
+
+                    <!-- Заглушка вместо фото -->
+                    <div style="height: 200px; background-color: #D4A574; opacity: 0.5; display: flex; align-items: center; justify-content: center; color: #5C4033;">
+                        Фото: @product.Photo
+                    </div>
+
+                    <div style="padding: 20px;">
+                        @if (product.Category != null)
+                        {
+                            <p style="color: #A09080; font-size: 12px; margin: 0;">@product.Category.Name</p>
+                        }
+                        <h3 style="color: #5C4033; font-family: Georgia, serif; font-size: 20px; margin: 10px 0;">@product.Title</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                            <span style="color: #5C4033; font-weight: bold; font-size: 18px;">@product.Price ₽</span>
+                            <a href="#" style="text-decoration: none; background-color: #8B5A3C; color: #F7F1E8; padding: 8px 16px; border-radius: 16px; font-size: 14px;">В корзину</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>

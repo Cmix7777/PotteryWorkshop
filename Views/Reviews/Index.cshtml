@@ -1,0 +1,100 @@
+@model IEnumerable<PotteryWorkshop.Models.Review>
+
+@{
+    ViewData["Title"] = "Отзывы";
+}
+
+<!-- Hero -->
+<div style="background-color: #5C4033; color: #F7F1E8; padding: 60px 100px;">
+    <p style="font-size: 13px; letter-spacing: 3px; color: #D4A574; margin-bottom: 15px;">ОТЗЫВЫ</p>
+    <h1 style="font-family: Georgia, serif; font-size: 48px; margin: 0 0 10px 0;">Что говорят наши ученики</h1>
+    <p style="font-size: 16px; color: #D4C5B0; margin: 0;">Честные отзывы от тех, кто уже побывал на занятиях.</p>
+</div>
+
+<div style="display: flex; gap: 40px; padding: 60px 100px;">
+
+    <!-- Sidebar -->
+    <div style="width: 280px; flex-shrink: 0;">
+        <h3 style="color: #5C4033; font-family: Georgia, serif; font-size: 20px; margin: 0 0 20px 0;">Фильтр по услуге</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            
+            <!-- Кнопка "Все отзывы" -->
+            <a href="/Reviews" 
+               style="text-decoration: none; padding: 12px 20px; border-radius: 25px; font-size: 14px; text-align: center;
+                      background: @(ViewBag.CurrentFilter == null ? "#8B5A3C" : "#FFFFFF"); 
+                      color: @(ViewBag.CurrentFilter == null ? "#F7F1E8" : "#5C4033");
+                      border: @(ViewBag.CurrentFilter == null ? "none" : "1.5px solid #E8DFD0");
+                      transition: all 0.2s;">
+                Все отзывы
+            </a>
+            
+            <!-- Кнопки категорий -->
+            @foreach (var filter in ViewBag.Filters)
+            {
+                var isActive = ViewBag.CurrentFilter == filter;
+                <a href="/Reviews?filter=@System.Net.WebUtility.UrlEncode(filter)" 
+                   style="text-decoration: none; padding: 12px 20px; border-radius: 25px; font-size: 14px; text-align: center;
+                          background: @(isActive ? "#8B5A3C" : "#FFFFFF"); 
+                          color: @(isActive ? "#F7F1E8" : "#5C4033");
+                          border: @(isActive ? "none" : "1.5px solid #E8DFD0");">
+                    @filter
+                </a>
+            }
+        </div>
+
+        <!-- Кнопка "Оставить отзыв" -->
+        <a href="/Reviews/Create" 
+           style="display: block; margin-top: 30px; text-align: center; text-decoration: none; 
+                  background-color: #8B5A3C; color: #F7F1E8; padding: 14px 20px; border-radius: 25px; 
+                  font-size: 14px; font-weight: bold;">
+            Оставить отзыв
+        </a>
+    </div>
+
+    <!-- Список отзывов -->
+    <div style="flex: 1;">
+        @if (!Model.Any())
+        {
+            <div style="background: #FFFFFF; border: 1px solid #E8DFD0; border-radius: 20px; padding: 60px; text-align: center;">
+                <p style="color: #7A6652; font-size: 18px; margin: 0;">В этой категории пока нет отзывов.</p>
+                <a href="/Reviews" style="display: inline-block; margin-top: 20px; color: #8B5A3C; text-decoration: none; font-weight: bold;">
+                    Посмотреть все отзывы →
+                </a>
+            </div>
+        }
+        else
+        {
+            foreach (var review in Model)
+            {
+                <div style="background: #FFFFFF; border: 1px solid #E8DFD0; border-radius: 20px; padding: 30px; margin-bottom: 25px;">
+                    
+                    <!-- Звёзды -->
+                    <div style="margin-bottom: 15px; color: #8B5A3C; font-size: 20px; letter-spacing: 2px;">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            @(i <= review.Rating ? "★" : "☆")
+                        }
+                    </div>
+
+                    <!-- Текст -->
+                    <p style="color: #5C4033; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+                        @review.Text
+                    </p>
+
+                    <!-- Автор -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; 
+                                padding-top: 15px; border-top: 1px solid #E8DFD0;">
+                        <div>
+                            <strong style="color: #5C4033; font-family: Georgia, serif; font-size: 16px;">
+                                @(review.User?.FullName ?? "Гость")
+                            </strong>
+                            <p style="color: #A09080; font-size: 13px; margin: 3px 0 0 0;">@review.ServiceType</p>
+                        </div>
+                        <span style="color: #A09080; font-size: 13px;">@review.CreatedAt.ToString("dd.MM.yyyy")</span>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
