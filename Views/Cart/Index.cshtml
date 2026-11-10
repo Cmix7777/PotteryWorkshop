@@ -1,0 +1,58 @@
+@model List<CartItem>
+@{
+    ViewData["Title"] = "Корзина";
+    var total = Model.Sum(i => i.Product.Price * i.Quantity);
+}
+<section class="section">
+    <div class="container narrow">
+        <h1>Корзина</h1>
+
+        @if (!Model.Any())
+        {
+            <p class="muted">В корзине пока ничего нет. <a asp-controller="Products" asp-action="Index">Перейти в магазин</a></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId">@item.Product.Title</a></td>
+                            <td>@item.Product.Price.ToString("N0") ₽</td>
+                            <td>
+                                <form asp-action="Update" method="post" class="qty-form">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="number" name="quantity" value="@item.Quantity" min="0" max="@item.Product.Stock" class="qty" />
+                                    <button type="submit" class="link-button link-button--accent">Обновить</button>
+                                </form>
+                            </td>
+                            <td>@((item.Product.Price * item.Quantity).ToString("N0")) ₽</td>
+                            <td>
+                                <form asp-action="Update" method="post" class="inline-form">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="quantity" value="0" />
+                                    <button type="submit" class="link-button">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="cart-total">
+                <span>Итого: <strong>@total.ToString("N0") ₽</strong></span>
+                <a asp-action="Checkout" class="btn">Оформить заказ</a>
+            </div>
+        }
+    </div>
+</section>

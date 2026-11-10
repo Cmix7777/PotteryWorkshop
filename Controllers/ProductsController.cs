@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PotteryWorkshop.Data;
-using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Controllers;
 
+/// <summary>Магазин: каталог с фильтром по категориям и поиском, карточка товара.</summary>
 public class ProductsController : Controller
 {
     private readonly AppDbContext _db;
@@ -14,32 +14,34 @@ public class ProductsController : Controller
         _db = db;
     }
 
-    // GET: /Products
-    // Показывает все товары, можно фильтровать по категории
-    public async Task<IActionResult> Index(int? categoryId)
+    public async Task<IActionResult> Index(int? categoryId, string? search)
     {
         var products = _db.Products.Include(p => p.Category).AsQueryable();
 
-        // Если выбрана категория, фильтруем
         if (categoryId.HasValue)
         {
             products = products.Where(p => p.CategoryId == categoryId.Value);
         }
 
-        // Получаем все категории для фильтра в sidebar
-        ViewBag.Categories = await _db.Categories.ToListAsync();
-        ViewBag.CurrentCategoryId = categoryId;
+        // Поиск по названию и описанию без учёта регистра
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var text = search.Trim().ToLower();
+            products = products.Where(p => p.Title.ToLower().Contains(text) || p.Description.ToLower().Contains(text));
+        }
 
-        return View(await products.ToListAsync());
+        ViewBag.Categories = await _db.Categories.OrderBy(c => c.Id).ToListAsync();
+        ViewBag.CurrentCategoryId = categoryId;
+        ViewBag.Search = search;
+
+        return View(await products.OrderBy(p => p.Title).ToListAsync());
     }
 
-    // GET: /Products/Details/5
-    // Страница конкретного товара
     public async Task<IActionResult> Details(int id)
     {
         var product = await _db.Products
-                               .Include(p => p.Category)
-                               .FirstOrDefaultAsync(p => p.Id == id);
+            .Include(p => p.Category)
+            .FirstOrDefaultAsync(p => p.Id == id);
 
         if (product == null)
         {

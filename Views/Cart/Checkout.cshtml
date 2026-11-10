@@ -1,0 +1,24 @@
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Оформление заказа";
+}
+<section class="section">
+    <div class="container form-page">
+        <h1>Оформление заказа</h1>
+        <p class="muted">Заказ можно забрать в мастерской. Мы позвоним, когда он будет готов к выдаче.</p>
+        <form asp-action="Checkout" method="post" class="form-card">
+            <div asp-validation-summary="ModelOnly" class="form-error"></div>
+
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" placeholder="+7 (___) ___-__-__" />
+            <span asp-validation-for="Phone" class="field-error"></span>
+
+            <label asp-for="Comment"></label>
+            <textarea asp-for="Comment" rows="3" placeholder="Например, удобное время, чтобы забрать заказ"></textarea>
+            <span asp-validation-for="Comment" class="field-error"></span>
+
+            <button type="submit" class="btn btn--wide">Подтвердить заказ</button>
+            <a asp-action="Index" class="link small">← Вернуться в корзину</a>
+        </form>
+    </div>
+</section>
