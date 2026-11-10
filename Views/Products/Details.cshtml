@@ -1,78 +1,44 @@
-@model PotteryWorkshop.Models.Product
-
+@model Product
 @{
     ViewData["Title"] = Model.Title;
 }
+<section class="section">
+    <div class="container">
+        <a asp-action="Index" class="link">← Вернуться в каталог</a>
 
-<!-- Ссылка назад в каталог -->
-<div style="padding: 30px 100px 0 100px;">
-    <a href="/Products" style="text-decoration: none; color: #8B5A3C; font-size: 14px;">← Вернуться в каталог</a>
-</div>
+        <div class="product">
+            <div class="photo photo--big">фото изделия</div>
 
-<!-- Основной блок товара -->
-<div style="display: flex; gap: 60px; padding: 40px 100px 80px 100px;">
+            <div class="product__info">
+                <span class="muted">@Model.Category.Name</span>
+                <h1>@Model.Title</h1>
+                <p class="muted">@Model.Description</p>
+                <div class="price price--big">@Model.Price.ToString("N0") ₽</div>
 
-    <!-- Большое фото (заглушка) -->
-    <div style="width: 500px; flex-shrink: 0;">
-        <div style="height: 500px; background-color: #D4A574; opacity: 0.6; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #5C4033; font-size: 18px;">
-            Фото: @Model.Photo
+                @if (Model.Stock > 0)
+                {
+                    <span class="status status--visited">В наличии: @Model.Stock шт.</span>
+
+                    if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <form asp-controller="Cart" asp-action="Add" method="post" class="add-to-cart">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" class="qty" />
+                            <button type="submit" class="btn">Добавить в корзину</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <p class="add-to-cart">
+                            <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path" class="btn btn--outline">Войдите, чтобы купить</a>
+                        </p>
+                    }
+                }
+                else
+                {
+                    <span class="status status--cancelled">Нет в наличии</span>
+                }
+            </div>
         </div>
     </div>
-
-    <!-- Информация о товаре -->
-    <div style="flex: 1;">
-        
-        @if (Model.Category != null)
-        {
-            <p style="color: #A09080; font-size: 14px; margin: 0 0 10px 0;">@Model.Category.Name</p>
-        }
-
-        <h1 style="color: #5C4033; font-family: Georgia, serif; font-size: 42px; margin: 0 0 20px 0;">
-            @Model.Title
-        </h1>
-
-        <p style="color: #7A6652; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
-            @Model.Description
-        </p>
-
-        <!-- Цена -->
-        <div style="margin-bottom: 30px;">
-            <span style="color: #5C4033; font-size: 36px; font-weight: bold; font-family: Georgia, serif;">
-                @Model.Price ₽
-            </span>
-        </div>
-
-        <!-- Наличие -->
-        <div style="margin-bottom: 30px;">
-            @if (Model.Stock > 0)
-            {
-                <span style="color: #2E7D32; font-size: 14px; background: #E8F5E9; padding: 8px 16px; border-radius: 20px;">
-                    ✓ В наличии (@Model.Stock шт.)
-                </span>
-            }
-            else
-            {
-                <span style="color: #C62828; font-size: 14px; background: #FFEBEE; padding: 8px 16px; border-radius: 20px;">
-                    ✗ Нет в наличии
-                </span>
-            }
-        </div>
-
-        <!-- Кнопка "В корзину" -->
-        @if (Model.Stock > 0)
-        {
-            <a href="#" style="display: inline-block; text-decoration: none; background-color: #8B5A3C; color: #F7F1E8; 
-                              padding: 15px 40px; border-radius: 30px; font-size: 16px; font-weight: bold;">
-                Добавить в корзину
-            </a>
-        }
-        else
-        {
-            <span style="display: inline-block; background-color: #E8DFD0; color: #A09080; 
-                         padding: 15px 40px; border-radius: 30px; font-size: 16px;">
-                Товар закончился
-            </span>
-        }
-
-    </div>
-</div>
+</section>

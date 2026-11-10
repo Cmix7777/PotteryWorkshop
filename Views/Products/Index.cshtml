@@ -1,79 +1,65 @@
-@model IEnumerable<PotteryWorkshop.Models.Product>
-
+@model List<Product>
 @{
     ViewData["Title"] = "Магазин";
+    var categories = (List<Category>)ViewBag.Categories;
+    var current = (int?)ViewBag.CurrentCategoryId;
+    var search = ViewBag.Search as string;
 }
-
-<div style="display: flex; gap: 40px; padding: 60px 100px;">
-
-    <!-- Sidebar с категориями -->
-    <div style="width: 250px; flex-shrink: 0;">
-        <h3 style="color: #5C4033; font-family: Georgia, serif; margin-bottom: 20px;">Категории</h3>
-        
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <a href="/Products" 
-               style="text-decoration: none; padding: 10px 15px; border-radius: 18px; 
-                      background: @(ViewBag.CurrentCategoryId == null ? "#8B5A3C" : "none"); 
-                      color: @(ViewBag.CurrentCategoryId == null ? "#F7F1E8" : "#5C4033");">
-                Все товары
-            </a>
-            
-            @foreach (var category in ViewBag.Categories)
-            {
-                <a href="/Products?categoryId=@category.Id" 
-                   style="text-decoration: none; padding: 10px 15px; border-radius: 18px; 
-                          background: @(ViewBag.CurrentCategoryId == category.Id ? "#8B5A3C" : "none"); 
-                          color: @(ViewBag.CurrentCategoryId == category.Id ? "#F7F1E8" : "#5C4033");">
-                    @category.Name
-                </a>
-            }
-        </div>
+<section class="page-hero">
+    <div class="container">
+        <span class="overline overline--light">Магазин</span>
+        <h1>Изделия ручной работы</h1>
+        <p>Готовая керамика, материалы и инструменты для творчества.</p>
     </div>
+</section>
 
-    <!-- Сетка товаров -->
-    <div style="flex: 1;">
-        <h2 style="color: #5C4033; font-family: Georgia, serif; font-size: 40px; margin-bottom: 40px;">
-            @(ViewBag.CurrentCategoryId == null ? "Все товары" : "Товары категории")
-        </h2>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 30px;">
-            
-            @foreach (var product in Model)
+<section class="section">
+    <div class="container shop">
+        <aside class="sidebar">
+            <h3>Категории</h3>
+            <a asp-action="Index" asp-route-search="@search" class="side-link @(current == null ? "side-link--active" : "")">Все товары</a>
+            @foreach (var c in categories)
             {
-                <div style="border: 1px solid #E8DFD0; border-radius: 16px; background: #FFFFFF; overflow: hidden;">
-                    
-                    <!-- Заглушка фото -->
-                    <div style="height: 240px; background-color: #D4A574; opacity: 0.6; display: flex; align-items: center; justify-content: center; color: #5C4033;">
-                        Фото: @product.Photo
-                    </div>
+                <a asp-action="Index" asp-route-categoryId="@c.Id" asp-route-search="@search"
+                   class="side-link @(current == c.Id ? "side-link--active" : "")">@c.Name</a>
+            }
+        </aside>
 
-                    <div style="padding: 20px;">
-                        @if (product.Category != null)
-                        {
-                            <p style="color: #A09080; font-size: 12px; margin: 0 0 10px 0;">@product.Category.Name</p>
-                        }
-                        
-                        <h3 style="color: #5C4033; font-family: Georgia, serif; font-size: 18px; margin: 0 0 15px 0;">
-                            @product.Title
-                        </h3>
-                        
-                        <p style="color: #7A6652; font-size: 14px; margin: 0 0 15px 0; line-height: 1.4;">
-                            @product.Description
-                        </p>
+        <div class="shop__content">
+            <form asp-action="Index" method="get" class="search">
+                @if (current != null)
+                {
+                    <input type="hidden" name="categoryId" value="@current" />
+                }
+                <input type="text" name="search" value="@search" placeholder="Поиск по названию, например «кружка»" />
+                <button type="submit" class="btn">Найти</button>
+            </form>
 
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="color: #5C4033; font-weight: bold; font-size: 20px;">@product.Price ₽</span>
-                            
-                            <a href="/Products/Details/@product.Id" 
-                               style="text-decoration: none; background-color: #8B5A3C; color: #F7F1E8; 
-                                      padding: 10px 20px; border-radius: 16px; font-size: 14px;">
-                                Подробнее
-                            </a>
-                        </div>
-                    </div>
+            @if (!Model.Any())
+            {
+                <p class="muted">Ничего не найдено. Попробуйте изменить запрос или выбрать другую категорию.</p>
+            }
+            else
+            {
+                <p class="muted small">Найдено товаров: @Model.Count</p>
+                <div class="grid grid--3">
+                    @foreach (var product in Model)
+                    {
+                        <article class="card">
+                            <div class="photo photo--product">фото изделия</div>
+                            <div class="card__body">
+                                <span class="muted small">@product.Category.Name</span>
+                                <h4><a asp-action="Details" asp-route-id="@product.Id" class="card-link">@product.Title</a></h4>
+                                <p class="muted small">@product.Description</p>
+                                <div class="card__footer">
+                                    <span class="price">@product.Price.ToString("N0") ₽</span>
+                                    <a asp-action="Details" asp-route-id="@product.Id" class="btn btn--small">Подробнее</a>
+                                </div>
+                            </div>
+                        </article>
+                    }
                 </div>
             }
-
         </div>
     </div>
-</div>
+</section>

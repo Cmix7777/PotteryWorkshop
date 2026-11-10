@@ -1,73 +1,48 @@
-@model PotteryWorkshop.Models.Review
-
+@model ReviewFormViewModel
 @{
     ViewData["Title"] = "Оставить отзыв";
+    var canReview = (bool)ViewBag.CanReview;
 }
+<section class="section">
+    <div class="container form-page">
+        <span class="overline">Отзывы</span>
+        <h1>Оставить отзыв</h1>
 
-<div style="background-color: #5C4033; color: #F7F1E8; padding: 60px 100px;">
-    <p style="font-size: 13px; letter-spacing: 3px; color: #D4A574; margin-bottom: 15px;">ОТЗЫВЫ</p>
-    <h1 style="font-family: Georgia, serif; font-size: 48px; margin: 0;">Оставить отзыв</h1>
-</div>
+        @if (!canReview)
+        {
+            <div class="alert alert--error">Отзыв можно оставить после посещения занятия или получения заказа. Записаться можно в разделе «Запись на занятия».</div>
+            <a asp-action="Index" class="link">← Вернуться к отзывам</a>
+        }
+        else
+        {
+            <form asp-action="Create" method="post" class="form-card">
+                <div asp-validation-summary="ModelOnly" class="form-error"></div>
 
-<div style="padding: 60px 100px;">
-    <div style="max-width: 700px; margin: 0 auto; background: #FFFFFF; padding: 40px; border-radius: 20px; border: 1px solid #E8DFD0;">
-        
-        <form asp-action="Create" method="post">
-            @Html.AntiForgeryToken()
+                <label>Ваше имя</label>
+                <input type="text" value="@User.Identity?.Name" disabled />
 
-            <!-- Имя (заглушка, в реальном проекте — из авторизации) -->
-            <div style="margin-bottom: 25px;">
-                <label style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Ваше имя</label>
-                <input type="text" value="Мария С." disabled 
-                       style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; 
-                              font-size: 14px; box-sizing: border-box; background: #F7F1E8; color: #A09080;" />
-                <p style="color: #A09080; font-size: 12px; margin: 5px 0 0 0;">В реальном проекте имя берётся из профиля</p>
-            </div>
-
-            <!-- Тип услуги -->
-            <div style="margin-bottom: 25px;">
-                <label asp-for="ServiceType" style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Где вы были? *</label>
-                <select asp-for="ServiceType" class="form-control" required
-                        style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; 
-                               font-size: 14px; box-sizing: border-box;">
-                    <option value="">-- Выберите --</option>
-                    <option value="Занятия на гончарном круге">Занятия на гончарном круге</option>
-                    <option value="Мастер-класс">Мастер-класс</option>
-                    <option value="Индивидуальный урок">Индивидуальный урок</option>
-                    <option value="Покупка в магазине">Покупка в магазине</option>
+                <label asp-for="ServiceType"></label>
+                <select asp-for="ServiceType" asp-items="@(new SelectList(ReviewFormViewModel.ServiceTypes))">
+                    <option value="">— Выберите —</option>
                 </select>
-                <span asp-validation-for="ServiceType" style="color: #C62828; font-size: 12px;"></span>
-            </div>
+                <span asp-validation-for="ServiceType" class="field-error"></span>
 
-            <!-- Рейтинг -->
-            <div style="margin-bottom: 25px;">
-                <label asp-for="Rating" style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Оценка *</label>
-                <select asp-for="Rating" class="form-control" required
-                        style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; 
-                               font-size: 14px; box-sizing: border-box;">
+                <label asp-for="Rating"></label>
+                <select asp-for="Rating">
                     <option value="5">★★★★★ — Отлично</option>
                     <option value="4">★★★★☆ — Хорошо</option>
                     <option value="3">★★★☆☆ — Нормально</option>
                     <option value="2">★★☆☆☆ — Плохо</option>
                     <option value="1">★☆☆☆☆ — Ужасно</option>
                 </select>
-            </div>
+                <span asp-validation-for="Rating" class="field-error"></span>
 
-            <!-- Текст -->
-            <div style="margin-bottom: 30px;">
-                <label asp-for="Text" style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Ваш отзыв *</label>
-                <textarea asp-for="Text" class="form-control" rows="5" required
-                          placeholder="Расскажите, что понравилось, что можно улучшить..." 
-                          style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; 
-                                 font-size: 14px; box-sizing: border-box; resize: vertical;"></textarea>
-                <span asp-validation-for="Text" style="color: #C62828; font-size: 12px;"></span>
-            </div>
+                <label asp-for="Text"></label>
+                <textarea asp-for="Text" rows="5" placeholder="Расскажите, что понравилось и что можно улучшить"></textarea>
+                <span asp-validation-for="Text" class="field-error"></span>
 
-            <button type="submit" 
-                    style="width: 100%; background-color: #8B5A3C; color: #F7F1E8; padding: 15px; 
-                           border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer;">
-                Отправить на модерацию
-            </button>
-        </form>
+                <button type="submit" class="btn btn--wide">Отправить на модерацию</button>
+            </form>
+        }
     </div>
-</div>
+</section>

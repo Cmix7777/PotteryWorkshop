@@ -1,49 +1,164 @@
-﻿@{
-    ViewData["Title"] = "Гончарная мастерская";
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Главная";
 }
 
-<!-- Блок 1: Приветствие (Hero) -->
-<div style="background-color: #5C4033; color: #F7F1E8; padding: 80px 100px; border-radius: 0 0 20px 20px;">
-    <h1 style="font-family: Georgia, serif; font-size: 56px; margin-bottom: 20px;">Создайте свой первый горшок</h1>
-    <p style="font-size: 18px; color: #D4C5B0; max-width: 600px;">
-        Один вечер — и вы увезёте домой чашку, сделанную своими руками. Опыт не нужен.
-    </p>
-    <a href="/Services" style="display: inline-block; margin-top: 30px; background-color: #8B5A3C; color: #F7F1E8; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
-        Записаться на занятие
-    </a>
-</div>
+<section class="hero">
+    <div class="container hero__inner">
+        <div class="hero__text">
+            <span class="overline overline--light">Мастер-класс недели</span>
+            <h1>Создайте свой первый <span class="accent">горшок</span></h1>
+            <p>Один вечер — и вы увезёте домой чашку, сделанную своими руками. Опыт не нужен, глина и фартук наши.</p>
+            <div class="hero__buttons">
+                <a asp-controller="Booking" asp-action="Index" class="btn">Записаться на занятие</a>
+                <a asp-controller="Events" asp-action="Index" class="btn btn--outline-light">Смотреть расписание</a>
+            </div>
+        </div>
+        <div class="photo photo--dark">фото процесса лепки</div>
+    </div>
+</section>
 
-<!-- Блок 2: Рекомендуемые изделия из магазина -->
-<div style="padding: 60px 100px;">
-    <h2 style="font-family: Georgia, serif; color: #5C4033; font-size: 36px; margin-bottom: 30px;">Изделия мастерской</h2>
+<section class="section">
+    <div class="container about">
+        <div>
+            <span class="overline">О мастерской</span>
+            <h2>Лепим руками и учим этому других</h2>
+            <p class="muted">Небольшая мастерская в центре города: шесть гончарных кругов, своя печь для обжига и мастера, которые объясняют без спешки. Здесь можно прийти на разовый мастер-класс, пройти курс или купить готовые изделия.</p>
+            <a asp-controller="Home" asp-action="About" class="link">Подробнее о мастерской →</a>
+        </div>
+        <div class="photo">фото мастерской</div>
+    </div>
+</section>
 
-    <div style="display: flex; gap: 30px; flex-wrap: wrap;">
-
-        @if (ViewBag.FeaturedProducts != null)
-        {
-            foreach (var product in ViewBag.FeaturedProducts)
+<section class="section">
+    <div class="container">
+        <div class="section__head">
+            <div>
+                <span class="overline">Услуги</span>
+                <h2>Чему можно научиться</h2>
+            </div>
+            <a asp-controller="Services" asp-action="Index" class="link">Все услуги →</a>
+        </div>
+        <div class="grid grid--3">
+            @foreach (var service in Model.Services)
             {
-                <div style="border: 1px solid #E8DFD0; border-radius: 16px; width: 350px; background: #FFFFFF; overflow: hidden;">
-
-                    <!-- Заглушка вместо фото -->
-                    <div style="height: 200px; background-color: #D4A574; opacity: 0.5; display: flex; align-items: center; justify-content: center; color: #5C4033;">
-                        Фото: @product.Photo
+                <article class="card">
+                    <div class="photo photo--card">фото занятия</div>
+                    <div class="card__body">
+                        <h3>@service.Title</h3>
+                        <p class="muted">@service.Description</p>
+                        <p class="price-line">от @service.Price.ToString("N0") ₽ · @(service.DurationMinutes / 60.0) ч</p>
+                        <a asp-controller="Booking" asp-action="Index" class="btn btn--outline btn--small">Записаться</a>
                     </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>
 
-                    <div style="padding: 20px;">
-                        @if (product.Category != null)
+<section class="section section--sand">
+    <div class="container">
+        <div class="section__head">
+            <div>
+                <span class="overline">Мероприятия</span>
+                <h2>Ближайшие мастер-классы</h2>
+            </div>
+            <a asp-controller="Events" asp-action="Index" class="link">Весь календарь →</a>
+        </div>
+        <div class="grid grid--3">
+            @foreach (var item in Model.Events)
+            {
+                <article class="card card--padded">
+                    <span class="badge">@item.Event.StartsAt.ToString("d MMMM, HH:mm")</span>
+                    <h3>@item.Event.Title</h3>
+                    <p class="muted">@item.Event.Description</p>
+                    <div class="card__footer">
+                        @if (item.FreePlaces > 0)
                         {
-                            <p style="color: #A09080; font-size: 12px; margin: 0;">@product.Category.Name</p>
+                            <span class="muted small">Свободных мест: @item.FreePlaces</span>
+                            <a asp-controller="Events" asp-action="Index" class="link">Зарегистрироваться →</a>
                         }
-                        <h3 style="color: #5C4033; font-family: Georgia, serif; font-size: 20px; margin: 10px 0;">@product.Title</h3>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                            <span style="color: #5C4033; font-weight: bold; font-size: 18px;">@product.Price ₽</span>
-                            <a href="#" style="text-decoration: none; background-color: #8B5A3C; color: #F7F1E8; padding: 8px 16px; border-radius: 16px; font-size: 14px;">В корзину</a>
+                        else
+                        {
+                            <span class="muted small">Мест нет</span>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section__head">
+            <div>
+                <span class="overline">Магазин</span>
+                <h2>Изделия мастерской</h2>
+            </div>
+            <a asp-controller="Products" asp-action="Index" class="link">Перейти в магазин →</a>
+        </div>
+        <div class="grid grid--4">
+            @foreach (var product in Model.Products)
+            {
+                <article class="card">
+                    <div class="photo photo--product">фото изделия</div>
+                    <div class="card__body">
+                        <span class="muted small">@product.Category.Name</span>
+                        <h4><a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="card-link">@product.Title</a></h4>
+                        <div class="card__footer">
+                            <span class="price">@product.Price.ToString("N0") ₽</span>
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn--small">Подробнее</a>
                         </div>
                     </div>
-                </div>
+                </article>
             }
-        }
-
+        </div>
     </div>
-</div>
+</section>
+
+<section class="section section--sand">
+    <div class="container">
+        <div class="section__head">
+            <div>
+                <span class="overline">Отзывы</span>
+                <h2>Что говорят ученики</h2>
+            </div>
+            <a asp-controller="Reviews" asp-action="Index" class="link">Все отзывы →</a>
+        </div>
+        <div class="grid grid--3">
+            @foreach (var review in Model.Reviews)
+            {
+                <article class="card card--padded">
+                    <div class="stars">@(new string('★', review.Rating))@(new string('☆', 5 - review.Rating))</div>
+                    <p>@review.Text</p>
+                    <strong>@review.User.FullName</strong>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section section--dark">
+    <div class="container cta">
+        <div>
+            <span class="overline overline--light">Запись онлайн</span>
+            <h2>Запишитесь на занятие за минуту</h2>
+            <p>Выберите тип урока и удобную дату, администратор подтвердит запись. Статус записи появится в личном кабинете.</p>
+        </div>
+        <a asp-controller="Booking" asp-action="Index" class="btn">Выбрать занятие</a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container contacts">
+        <div>
+            <span class="overline">Контакты</span>
+            <h2>Как нас найти</h2>
+            <p><span class="muted small">Адрес</span><br />г. Ижевск, ул. Примерная, 1</p>
+            <p><span class="muted small">Телефон</span><br />+7 (3412) 00-00-00</p>
+            <p><span class="muted small">Часы работы</span><br />Вт–Вс, 11:00–21:00</p>
+        </div>
+        <iframe class="map" title="Карта проезда" src="https://yandex.ru/map-widget/v1/?ll=53.204843%2C56.852775&z=15&pt=53.204843%2C56.852775%2Cpm2rdm" loading="lazy"></iframe>
+    </div>
+</section>

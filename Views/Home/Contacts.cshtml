@@ -1,104 +1,82 @@
+@model FeedbackViewModel
 @{
     ViewData["Title"] = "Контакты";
+    var topics = new[] { "Общий вопрос", "Запись на занятие", "Заказ в магазине", "Сотрудничество" };
 }
-
-<!-- Hero -->
-<div style="background-color: #5C4033; color: #F7F1E8; padding: 80px 100px;">
-    <p style="font-size: 13px; letter-spacing: 3px; color: #D4A574; margin-bottom: 15px;">КОНТАКТЫ</p>
-    <h1 style="font-family: Georgia, serif; font-size: 56px; margin: 0 0 10px 0;">Как нас найти и связаться</h1>
-    <p style="font-size: 18px; color: #D4C5B0; margin: 0;">Приходите в гости, звоните или пишите — мы всегда на связи.</p>
-</div>
-
-<!-- Контактная информация -->
-<div style="padding: 60px 100px;">
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 60px;">
-        
-        <!-- Адрес -->
-        <div style="background: #FFFFFF; padding: 30px; border-radius: 20px; border: 1px solid #E8DFD0;">
-            <p style="color: #A09080; font-size: 13px; margin: 0 0 10px 0;">Адрес</p>
-            <h3 style="font-family: Georgia, serif; font-size: 22px; color: #5C4033; margin: 0 0 10px 0;">г. Ижевск, ул. Примерная, 1</h3>
-            <p style="color: #7A6652; font-size: 14px; margin: 0;">Вход со двора, 2 этаж</p>
-            <p style="color: #7A6652; font-size: 14px; margin: 0;">Есть парковка</p>
-        </div>
-
-        <!-- Телефон -->
-        <div style="background: #FFFFFF; padding: 30px; border-radius: 20px; border: 1px solid #E8DFD0;">
-            <p style="color: #A09080; font-size: 13px; margin: 0 0 10px 0;">Телефон</p>
-            <h3 style="font-family: Georgia, serif; font-size: 26px; color: #5C4033; margin: 0 0 15px 0;">+7 (3412) 00-00-00</h3>
-            <p style="color: #7A6652; font-size: 14px; margin: 0 0 15px 0;">Звоните в рабочее время</p>
-            <a href="tel:+73412000000" style="display: inline-block; text-decoration: none; background-color: #8B5A3C; color: #F7F1E8; padding: 10px 20px; border-radius: 18px; font-size: 14px;">Позвонить</a>
-        </div>
-
-        <!-- Часы работы -->
-        <div style="background: #FFFFFF; padding: 30px; border-radius: 20px; border: 1px solid #E8DFD0;">
-            <p style="color: #A09080; font-size: 13px; margin: 0 0 10px 0;">Часы работы</p>
-            <h3 style="font-family: Georgia, serif; font-size: 24px; color: #5C4033; margin: 0 0 5px 0;">Вт – Вс</h3>
-            <h3 style="font-family: Georgia, serif; font-size: 24px; color: #5C4033; margin: 0 0 15px 0;">11:00 – 21:00</h3>
-            <p style="color: #A09080; font-size: 14px; margin: 0;">Понедельник — выходной</p>
-        </div>
-
-        <!-- Почта -->
-        <div style="background: #FFFFFF; padding: 30px; border-radius: 20px; border: 1px solid #E8DFD0;">
-            <p style="color: #A09080; font-size: 13px; margin: 0 0 10px 0;">Почта</p>
-            <h3 style="font-family: Georgia, serif; font-size: 22px; color: #5C4033; margin: 0 0 10px 0;">info@goncharnaya.ru</h3>
-            <p style="color: #7A6652; font-size: 14px; margin: 0;">Отвечаем в течение дня</p>
-        </div>
-
-        <!-- Соцсети -->
-        <div style="background: #FFFFFF; padding: 30px; border-radius: 20px; border: 1px solid #E8DFD0;">
-            <p style="color: #A09080; font-size: 13px; margin: 0 0 10px 0;">Социальные сети</p>
-            <h3 style="font-family: Georgia, serif; font-size: 22px; color: #5C4033; margin: 0 0 5px 0;">ВКонтакте</h3>
-            <h3 style="font-family: Georgia, serif; font-size: 22px; color: #5C4033; margin: 0 0 15px 0;">Telegram</h3>
-            <p style="color: #7A6652; font-size: 14px; margin: 0;">Подписывайтесь на анонсы</p>
-        </div>
-
-        <!-- Реквизиты -->
-        <div style="background: #FFFFFF; padding: 30px; border-radius: 20px; border: 1px solid #E8DFD0;">
-            <p style="color: #A09080; font-size: 13px; margin: 0 0 10px 0;">Реквизиты</p>
-            <p style="color: #5C4033; font-size: 14px; margin: 0 0 5px 0;">ИП Иванов И.И.</p>
-            <p style="color: #5C4033; font-size: 14px; margin: 0 0 5px 0;">ИНН 1234567890</p>
-            <p style="color: #5C4033; font-size: 14px; margin: 0;">ОГРНИП 1234567890123</p>
-        </div>
+<section class="page-hero">
+    <div class="container">
+        <span class="overline overline--light">Контакты</span>
+        <h1>Как нас найти и связаться</h1>
+        <p>Приходите в гости, звоните или пишите, мы всегда на связи.</p>
     </div>
+</section>
 
-    <!-- Карта -->
-    <h2 style="font-family: Georgia, serif; font-size: 36px; color: #5C4033; margin-bottom: 30px;">Карта проезда</h2>
-    <div style="height: 400px; background-color: #D4A574; opacity: 0.4; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #5C4033; font-size: 16px;">
-        Карта проезда (здесь будет Яндекс.Карты или 2ГИС)
+<section class="section">
+    <div class="container">
+        <div class="grid grid--3">
+            <div class="card card--padded">
+                <span class="muted small">Адрес</span>
+                <h3>г. Ижевск, ул. Примерная, 1</h3>
+                <p class="muted">Вход со двора, 2 этаж. Есть парковка.</p>
+            </div>
+            <div class="card card--padded">
+                <span class="muted small">Телефон</span>
+                <h3>+7 (3412) 00-00-00</h3>
+                <a href="tel:+73412000000" class="btn btn--small contact-btn">Позвонить</a>
+            </div>
+            <div class="card card--padded">
+                <span class="muted small">Часы работы</span>
+                <h3>Вт – Вс, 11:00 – 21:00</h3>
+                <p class="muted">Понедельник — выходной</p>
+            </div>
+            <div class="card card--padded">
+                <span class="muted small">Почта</span>
+                <h3>info@goncharnaya.ru</h3>
+                <p class="muted">Отвечаем в течение дня</p>
+            </div>
+            <div class="card card--padded">
+                <span class="muted small">Социальные сети</span>
+                <h3>ВКонтакте, Telegram</h3>
+                <p class="muted">Подписывайтесь на анонсы</p>
+            </div>
+            <div class="card card--padded">
+                <span class="muted small">Реквизиты</span>
+                <p>ИП Иванов И.И.<br />ИНН 1234567890<br />ОГРНИП 1234567890123</p>
+            </div>
+        </div>
+
+        <h2 class="map-title">Карта проезда</h2>
+        <!-- Карта подключается через внешний сервис Яндекс.Карты -->
+        <iframe class="map" title="Карта проезда"
+                src="https://yandex.ru/map-widget/v1/?ll=53.204843%2C56.852775&z=15&pt=53.204843%2C56.852775%2Cpm2rdm"
+                allowfullscreen loading="lazy"></iframe>
     </div>
-</div>
+</section>
 
-<!-- Форма обратной связи -->
-<div style="background-color: #EDE3D3; padding: 60px 100px;">
-    <h2 style="font-family: Georgia, serif; font-size: 36px; color: #5C4033; margin-bottom: 15px;">Напишите нам</h2>
-    <p style="color: #7A6652; font-size: 15px; margin-bottom: 40px;">Есть вопрос или предложение? Заполните форму, и мы ответим в течение дня.</p>
+<section class="section section--sand">
+    <div class="container form-page form-page--wide">
+        <h2>Напишите нам</h2>
+        <p class="muted">Есть вопрос или предложение? Заполните форму, и мы ответим в течение дня.</p>
 
-    <form style="max-width: 600px; background: #FFFFFF; padding: 40px; border-radius: 20px;">
-        <div style="margin-bottom: 25px;">
-            <label style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Ваше имя *</label>
-            <input type="text" placeholder="Как к вам обращаться" style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; font-size: 14px; box-sizing: border-box;">
-        </div>
+        <form asp-action="Contacts" method="post" class="form-card">
+            <div asp-validation-summary="ModelOnly" class="form-error"></div>
 
-        <div style="margin-bottom: 25px;">
-            <label style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Email *</label>
-            <input type="email" placeholder="your@email.com" style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; font-size: 14px; box-sizing: border-box;">
-        </div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" placeholder="Как к вам обращаться" />
+            <span asp-validation-for="Name" class="field-error"></span>
 
-        <div style="margin-bottom: 25px;">
-            <label style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Тема обращения</label>
-            <select style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; font-size: 14px; box-sizing: border-box;">
-                <option>Общий вопрос</option>
-                <option>Запись на занятие</option>
-                <option>Заказ в магазине</option>
-                <option>Сотрудничество</option>
-            </select>
-        </div>
+            <label asp-for="Email"></label>
+            <input asp-for="Email" placeholder="your@email.com" />
+            <span asp-validation-for="Email" class="field-error"></span>
 
-        <div style="margin-bottom: 30px;">
-            <label style="display: block; color: #5C4033; font-size: 14px; font-weight: bold; margin-bottom: 8px;">Сообщение *</label>
-            <textarea rows="5" placeholder="Ваш вопрос или предложение..." style="width: 100%; padding: 12px 15px; border: 1px solid #E8DFD0; border-radius: 10px; font-size: 14px; box-sizing: border-box; resize: vertical;"></textarea>
-        </div>
+            <label asp-for="Topic"></label>
+            <select asp-for="Topic" asp-items="@(new SelectList(topics))"></select>
 
-        <button type="submit" style="background-color: #8B5A3C; color: #F7F1E8; padding: 15px 40px; border: none; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer;">Отправить</button>
-    </form>
-</div>
+            <label asp-for="Message"></label>
+            <textarea asp-for="Message" rows="5" placeholder="Ваш вопрос или предложение"></textarea>
+            <span asp-validation-for="Message" class="field-error"></span>
+
+            <button type="submit" class="btn">Отправить</button>
+        </form>
+    </div>
+</section>

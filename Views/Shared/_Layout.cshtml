@@ -1,49 +1,110 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+@{
+    // Текущий раздел, чтобы подсветить его в меню
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    string Active(string c, string? a = null) => controller == c && (a == null || action == a) ? "active" : "";
+    var isStaff = User.IsInRole("Admin") || User.IsInRole("Moderator");
+}
+<!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PotteryWorkshop</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] — Гончарная мастерская</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/PotteryWorkshop.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PotteryWorkshop</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <header class="header">
+        <div class="container header__inner">
+            <a class="logo" asp-controller="Home" asp-action="Index">Гончарная мастерская</a>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - PotteryWorkshop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- Чекбокс открывает меню на телефоне без JavaScript -->
+            <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+            <label for="menu-toggle" class="menu-button" aria-label="Меню">&#9776;</label>
+
+            <nav class="nav">
+                <a asp-controller="Home" asp-action="About" class="@Active("Home", "About")">О мастерской</a>
+                <a asp-controller="Services" asp-action="Index" class="@Active("Services")">Услуги</a>
+                <a asp-controller="Products" asp-action="Index" class="@Active("Products")">Магазин</a>
+                <a asp-controller="Events" asp-action="Index" class="@Active("Events")">Мероприятия</a>
+                <a asp-controller="Booking" asp-action="Index" class="@Active("Booking", "Index")">Запись на занятия</a>
+                <a asp-controller="Reviews" asp-action="Index" class="@Active("Reviews")">Отзывы</a>
+                <a asp-controller="Home" asp-action="Contacts" class="@Active("Home", "Contacts")">Контакты</a>
+            </nav>
+
+            <div class="header__user">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Cart" asp-action="Index">Корзина</a>
+                    if (isStaff)
+                    {
+                        <a asp-controller="Admin" asp-action="Index">Админ-панель</a>
+                    }
+                    <a asp-controller="Profile" asp-action="Index" class="btn btn--outline btn--small">@User.Identity?.Name</a>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="inline-form">
+                        <button type="submit" class="link-button">Выйти</button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Войти</a>
+                    <a asp-controller="Account" asp-action="Register" class="btn btn--outline btn--small">Регистрация</a>
+                }
+            </div>
+        </div>
+    </header>
+
+    @if (TempData["Message"] != null || TempData["Error"] != null)
+    {
+        <div class="container flash">
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert--ok">@TempData["Message"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert--error">@TempData["Error"]</div>
+            }
+        </div>
+    }
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__cols">
+            <div class="footer__about">
+                <div class="logo logo--light">Гончарная мастерская</div>
+                <p>Гончарная мастерская в Ижевске. Занятия, мастер-классы и изделия ручной работы.</p>
+                <p class="footer__social">ВКонтакте · Telegram</p>
+            </div>
+            <div>
+                <h4>Разделы</h4>
+                <a asp-controller="Home" asp-action="About">О мастерской</a>
+                <a asp-controller="Services" asp-action="Index">Услуги</a>
+                <a asp-controller="Products" asp-action="Index">Магазин</a>
+                <a asp-controller="Events" asp-action="Index">Мероприятия</a>
+                <a asp-controller="Reviews" asp-action="Index">Отзывы</a>
+            </div>
+            <div>
+                <h4>Клиентам</h4>
+                <a asp-controller="Booking" asp-action="Index">Запись на занятия</a>
+                <a asp-controller="Home" asp-action="Contacts">Контакты</a>
+                <a asp-controller="Home" asp-action="Privacy">Политика конфиденциальности</a>
+            </div>
+            <div>
+                <h4>Команда разработчиков</h4>
+                <span>Айзат — база данных, логика, админка</span>
+                <span>Напарник — дизайн и вёрстка</span>
+                <a asp-controller="Home" asp-action="Team">Распределение задач →</a>
+            </div>
+        </div>
+        <div class="container footer__bottom">
+            © @DateTime.Now.Year Гончарная мастерская. Учебный проект.
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

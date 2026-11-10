@@ -1,0 +1,50 @@
+@using PotteryWorkshop.Logic
+@model List<Service>
+@{
+    ViewData["Title"] = "Услуги";
+}
+<section class="page-hero">
+    <div class="container">
+        <span class="overline overline--light">Услуги</span>
+        <h1>Чему можно научиться</h1>
+        <p>Групповые занятия, мастер-классы и индивидуальные уроки. Глина, инструменты и фартук входят в стоимость.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container services-list">
+        @foreach (var service in Model)
+        {
+            <article class="service-row">
+                <div class="photo photo--service">фото занятия</div>
+                <div class="service-row__info">
+                    <span class="badge">@service.Kind.ToRussian()</span>
+                    <h2>@service.Title</h2>
+                    <p class="muted">@service.Description</p>
+                    <p class="price-line">@service.Price.ToString("N0") ₽ · @(service.DurationMinutes / 60.0) ч</p>
+
+                    @if (service.Lessons.Any())
+                    {
+                        <h4>Ближайшие занятия</h4>
+                        <ul class="lesson-chips">
+                            @foreach (var lesson in service.Lessons.Take(3))
+                            {
+                                var free = BookingManager.FreePlaces(lesson);
+                                <li class="@(free == 0 ? "is-full" : "")">
+                                    <strong>@lesson.StartsAt.ToString("d MMMM, HH:mm")</strong>
+                                    <span>@(free > 0 ? $"мест: {free}" : "мест нет")</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="muted small">Новых занятий пока нет в расписании.</p>
+                    }
+
+                    <a asp-controller="Booking" asp-action="Index" asp-route-serviceId="@service.Id" class="btn">Записаться</a>
+                </div>
+            </article>
+        }
+    </div>
+</section>
