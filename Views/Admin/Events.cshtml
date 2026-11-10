@@ -1,0 +1,68 @@
+@using PotteryWorkshop.Logic
+@model EventFormViewModel
+@{
+    ViewData["Title"] = "Мероприятия";
+    var events = (List<Event>)ViewBag.Events;
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Мероприятия</h1>
+
+            <form asp-action="Events" method="post" class="form-card admin-form">
+                <h3>Добавить мероприятие</h3>
+                <div asp-validation-summary="ModelOnly" class="form-error"></div>
+                <label asp-for="Title"></label>
+                <input asp-for="Title" />
+                <span asp-validation-for="Title" class="field-error"></span>
+
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="3"></textarea>
+
+                <div class="form-row">
+                    <div>
+                        <label asp-for="StartsAt"></label>
+                        <input asp-for="StartsAt" type="datetime-local" />
+                        <span asp-validation-for="StartsAt" class="field-error"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Place"></label>
+                        <input asp-for="Place" />
+                    </div>
+                    <div>
+                        <label asp-for="PlacesTotal"></label>
+                        <input asp-for="PlacesTotal" />
+                        <span asp-validation-for="PlacesTotal" class="field-error"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Price"></label>
+                        <input asp-for="Price" />
+                        <span asp-validation-for="Price" class="field-error"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Добавить</button>
+            </form>
+
+            <table class="table">
+                <thead><tr><th>Дата</th><th>Мероприятие</th><th>Место</th><th>Регистраций</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var e in events)
+                    {
+                        <tr>
+                            <td>@e.StartsAt.ToString("d MMMM, HH:mm")</td>
+                            <td>@e.Title</td>
+                            <td>@e.Place</td>
+                            <td>@e.Registrations.Count из @e.PlacesTotal</td>
+                            <td>
+                                <form asp-action="DeleteEvent" asp-route-id="@e.Id" method="post" class="inline-form">
+                                    <button type="submit" class="link-button">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

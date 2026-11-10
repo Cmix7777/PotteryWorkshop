@@ -1,0 +1,62 @@
+@using PotteryWorkshop.Logic
+@model LessonFormViewModel
+@{
+    ViewData["Title"] = "Расписание";
+    var services = (List<Service>)ViewBag.ServiceList;
+    var lessons = (List<Lesson>)ViewBag.Lessons;
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Расписание занятий</h1>
+
+            <form asp-action="Lessons" method="post" class="form-card admin-form">
+                <h3>Добавить занятие</h3>
+                <div asp-validation-summary="ModelOnly" class="form-error"></div>
+                <div class="form-row">
+                    <div>
+                        <label asp-for="ServiceId"></label>
+                        <select asp-for="ServiceId" asp-items="@(new SelectList(services, "Id", "Title"))"></select>
+                    </div>
+                    <div>
+                        <label asp-for="StartsAt"></label>
+                        <input asp-for="StartsAt" type="datetime-local" />
+                        <span asp-validation-for="StartsAt" class="field-error"></span>
+                    </div>
+                    <div>
+                        <label asp-for="PlacesTotal"></label>
+                        <input asp-for="PlacesTotal" />
+                        <span asp-validation-for="PlacesTotal" class="field-error"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Teacher"></label>
+                        <input asp-for="Teacher" />
+                        <span asp-validation-for="Teacher" class="field-error"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Добавить</button>
+            </form>
+
+            <table class="table">
+                <thead><tr><th>Дата и время</th><th>Услуга</th><th>Мастер</th><th>Места</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var l in lessons)
+                    {
+                        <tr>
+                            <td>@l.StartsAt.ToString("ddd, d MMMM, HH:mm")</td>
+                            <td>@l.Service.Title</td>
+                            <td>@l.Teacher</td>
+                            <td>свободно @BookingManager.FreePlaces(l) из @l.PlacesTotal</td>
+                            <td>
+                                <form asp-action="DeleteLesson" asp-route-id="@l.Id" method="post" class="inline-form">
+                                    <button type="submit" class="link-button">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

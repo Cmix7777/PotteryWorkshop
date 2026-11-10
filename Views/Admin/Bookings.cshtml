@@ -1,0 +1,53 @@
+@model List<Booking>
+@{
+    ViewData["Title"] = "Записи на занятия";
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Записи на занятия</h1>
+            <p class="muted">Подтвердите новые записи, а после занятия отметьте посещение. По посещённым занятиям клиенты могут оставлять отзывы.</p>
+            @if (!Model.Any())
+            {
+                <p class="muted">Записей пока нет.</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead><tr><th>Клиент</th><th>Занятие</th><th>Дата</th><th>Статус</th><th>Изменить</th></tr></thead>
+                    <tbody>
+                        @foreach (var b in Model)
+                        {
+                            <tr>
+                                <td>@b.User.FullName<div class="muted small">@b.User.Email @b.User.Phone</div></td>
+                                <td>@b.Lesson.Service.Title</td>
+                                <td>@b.Lesson.StartsAt.ToString("d MMMM, HH:mm")</td>
+                                <td><span class="status status--@(b.Status.ToString().ToLower())">@b.Status.ToRussian()</span></td>
+                                <td>
+                                    <form asp-action="SetBookingStatus" method="post" class="status-form">
+                                        <input type="hidden" name="id" value="@b.Id" />
+                                        <select name="status">
+                                            @foreach (var st in Enum.GetValues<BookingStatus>())
+                                            {
+                                                if (st == b.Status)
+                                                {
+                                                    <option value="@st" selected>@st.ToRussian()</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@st">@st.ToRussian()</option>
+                                                }
+                                            }
+                                        </select>
+                                        <button type="submit" class="link-button link-button--accent">ОК</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</section>

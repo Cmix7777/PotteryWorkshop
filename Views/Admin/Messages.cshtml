@@ -1,0 +1,30 @@
+@model List<FeedbackMessage>
+@{
+    ViewData["Title"] = "Сообщения";
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Сообщения с сайта</h1>
+            @if (!Model.Any())
+            {
+                <p class="muted">Сообщений пока нет.</p>
+            }
+            else
+            {
+                foreach (var m in Model)
+                {
+                    <article class="card card--padded message">
+                        <div class="review__footer">
+                            <strong>@m.Name <span class="muted small">@m.Email</span></strong>
+                            <span class="muted small">@m.CreatedAt.ToString("dd.MM.yyyy HH:mm")</span>
+                        </div>
+                        <span class="badge">@m.Topic</span>
+                        <p>@m.Message</p>
+                    </article>
+                }
+            }
+        </div>
+    </div>
+</section>

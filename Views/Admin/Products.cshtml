@@ -1,0 +1,36 @@
+@model List<Product>
+@{
+    ViewData["Title"] = "Товары";
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <div class="section__head">
+                <h1>Товары</h1>
+                <a asp-action="EditProduct" class="btn">Добавить товар</a>
+            </div>
+            <table class="table">
+                <thead><tr><th>Название</th><th>Категория</th><th>Цена</th><th>Остаток</th><th>На главной</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>@p.Title</td>
+                            <td>@p.Category.Name</td>
+                            <td>@p.Price.ToString("N0") ₽</td>
+                            <td class="@(p.Stock <= 2 ? "text-danger" : "")">@p.Stock</td>
+                            <td>@(p.IsFeatured ? "да" : "")</td>
+                            <td class="actions">
+                                <a asp-action="EditProduct" asp-route-id="@p.Id" class="link small">Изменить</a>
+                                <form asp-action="DeleteProduct" asp-route-id="@p.Id" method="post" class="inline-form">
+                                    <button type="submit" class="link-button small">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

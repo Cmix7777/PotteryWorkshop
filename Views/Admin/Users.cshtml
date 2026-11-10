@@ -1,0 +1,45 @@
+@model List<User>
+@{
+    ViewData["Title"] = "Пользователи";
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Пользователи и роли</h1>
+            <table class="table">
+                <thead><tr><th>Имя</th><th>Email</th><th>Телефон</th><th>Дата регистрации</th><th>Роль</th></tr></thead>
+                <tbody>
+                    @foreach (var u in Model)
+                    {
+                        <tr>
+                            <td>@u.FullName</td>
+                            <td>@u.Email</td>
+                            <td>@u.Phone</td>
+                            <td>@u.CreatedAt.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                <form asp-action="SetRole" method="post" class="status-form">
+                                    <input type="hidden" name="id" value="@u.Id" />
+                                    <select name="role">
+                                        @foreach (var role in Enum.GetValues<UserRole>())
+                                        {
+                                            if (role == u.Role)
+                                            {
+                                                <option value="@role" selected>@role.ToRussian()</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@role">@role.ToRussian()</option>
+                                            }
+                                        }
+                                    </select>
+                                    <button type="submit" class="link-button link-button--accent">ОК</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,53 @@
+@model List<Review>
+@{
+    ViewData["Title"] = "Отзывы";
+    var isAdmin = User.IsInRole("Admin");
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Отзывы</h1>
+            <p class="muted">Новые отзывы видны на сайте только после публикации. Публикует или скрывает отзывы администратор.</p>
+            <table class="table">
+                <thead><tr><th>Автор</th><th>Отзыв</th><th>Оценка</th><th>Статус</th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr>
+                            <td>@r.User.FullName<div class="muted small">@r.ServiceType</div></td>
+                            <td>@r.Text</td>
+                            <td>@r.Rating из 5</td>
+                            <td>
+                                @if (isAdmin)
+                                {
+                                    <form asp-action="SetReviewStatus" method="post" class="status-form">
+                                        <input type="hidden" name="id" value="@r.Id" />
+                                        <select name="status">
+                                            @foreach (var st in Enum.GetValues<ReviewStatus>())
+                                            {
+                                                if (st == r.Status)
+                                                {
+                                                    <option value="@st" selected>@st.ToRussian()</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@st">@st.ToRussian()</option>
+                                                }
+                                            }
+                                        </select>
+                                        <button type="submit" class="link-button link-button--accent">ОК</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span>@r.Status.ToRussian()</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,45 @@
+@model ProductFormViewModel
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Новый товар" : "Изменить товар";
+    var categories = (List<Category>)ViewBag.CategoryList;
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>@ViewData["Title"]</h1>
+            <form asp-action="EditProduct" method="post" class="form-card admin-form">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="form-error"></div>
+
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" asp-items="@(new SelectList(categories, "Id", "Name"))"></select>
+
+                <label asp-for="Title"></label>
+                <input asp-for="Title" />
+                <span asp-validation-for="Title" class="field-error"></span>
+
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="4"></textarea>
+
+                <div class="form-row">
+                    <div>
+                        <label asp-for="Price"></label>
+                        <input asp-for="Price" />
+                        <span asp-validation-for="Price" class="field-error"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Stock"></label>
+                        <input asp-for="Stock" />
+                        <span asp-validation-for="Stock" class="field-error"></span>
+                    </div>
+                </div>
+
+                <label class="checkbox"><input asp-for="IsFeatured" /> Показывать на главной странице</label>
+
+                <button type="submit" class="btn">Сохранить</button>
+                <a asp-action="Products" class="link small">← К списку товаров</a>
+            </form>
+        </div>
+    </div>
+</section>

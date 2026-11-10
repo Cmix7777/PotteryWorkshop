@@ -1,0 +1,57 @@
+@model AdminStatsViewModel
+@{
+    ViewData["Title"] = "Админ-панель";
+    var isAdmin = User.IsInRole("Admin");
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Сводка</h1>
+            <div class="stats">
+                <div class="stat"><span class="stat__num">@Model.NewBookings</span><span class="muted small">новых записей</span></div>
+                <div class="stat"><span class="stat__num">@Model.UpcomingLessons</span><span class="muted small">занятий впереди</span></div>
+                <div class="stat"><span class="stat__num">@Model.ReviewsOnModeration</span><span class="muted small">отзывов на модерации</span></div>
+                <div class="stat"><span class="stat__num">@Model.NewMessages</span><span class="muted small">сообщений</span></div>
+                @if (isAdmin)
+                {
+                    <div class="stat"><span class="stat__num">@Model.NewOrders</span><span class="muted small">новых заказов</span></div>
+                    <div class="stat"><span class="stat__num">@Model.Revenue.ToString("N0") ₽</span><span class="muted small">выручка по выданным заказам</span></div>
+                    <div class="stat"><span class="stat__num">@Model.UsersCount</span><span class="muted small">пользователей</span></div>
+                }
+            </div>
+
+            @if (isAdmin)
+            {
+                <h2 class="cabinet__title">Популярные услуги</h2>
+                <table class="table">
+                    <thead><tr><th>Услуга</th><th>Записей</th></tr></thead>
+                    <tbody>
+                        @foreach (var s in Model.PopularServices)
+                        {
+                            <tr><td>@s.Service</td><td>@s.Count</td></tr>
+                        }
+                    </tbody>
+                </table>
+
+                <h2 class="cabinet__title">Заканчиваются на складе</h2>
+                if (!Model.LowStock.Any())
+                {
+                    <p class="muted">Все товары в достаточном количестве.</p>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead><tr><th>Товар</th><th>Остаток</th></tr></thead>
+                        <tbody>
+                            @foreach (var p in Model.LowStock)
+                            {
+                                <tr><td>@p.Title</td><td>@p.Stock шт.</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,59 @@
+@model List<Order>
+@{
+    ViewData["Title"] = "Заказы";
+}
+<section class="section">
+    <div class="container cabinet">
+        <partial name="_AdminNav" />
+        <div class="cabinet__content">
+            <h1>Заказы</h1>
+            <p class="muted">При отмене заказа товары автоматически возвращаются на склад.</p>
+            @if (!Model.Any())
+            {
+                <p class="muted">Заказов пока нет.</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead><tr><th>№</th><th>Клиент</th><th>Состав</th><th>Сумма</th><th>Статус</th></tr></thead>
+                    <tbody>
+                        @foreach (var o in Model)
+                        {
+                            <tr>
+                                <td>@o.Id<div class="muted small">@o.CreatedAt.ToString("dd.MM.yyyy")</div></td>
+                                <td>@o.User.FullName<div class="muted small">@o.Phone</div></td>
+                                <td>
+                                    @(string.Join(", ", o.Items.Select(i => $"{i.Product.Title} × {i.Quantity}")))
+                                    @if (!string.IsNullOrEmpty(o.Comment))
+                                    {
+                                        <div class="muted small">@o.Comment</div>
+                                    }
+                                </td>
+                                <td>@o.Total.ToString("N0") ₽</td>
+                                <td>
+                                    <form asp-action="SetOrderStatus" method="post" class="status-form">
+                                        <input type="hidden" name="id" value="@o.Id" />
+                                        <select name="status">
+                                            @foreach (var st in Enum.GetValues<OrderStatus>())
+                                            {
+                                                if (st == o.Status)
+                                                {
+                                                    <option value="@st" selected>@st.ToRussian()</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@st">@st.ToRussian()</option>
+                                                }
+                                            }
+                                        </select>
+                                        <button type="submit" class="link-button link-button--accent">ОК</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,21 @@
+@{
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    var isAdmin = User.IsInRole("Admin");
+    string Cls(string a) => action == a ? "side-link side-link--active" : "side-link";
+}
+<aside class="sidebar">
+    <h3>Админ-панель</h3>
+    <span class="muted small">@(isAdmin ? "Администратор" : "Модератор")</span>
+    <a asp-action="Index" class="@Cls("Index")">Сводка</a>
+    <a asp-action="Bookings" class="@Cls("Bookings")">Записи на занятия</a>
+    <a asp-action="Lessons" class="@Cls("Lessons")">Расписание</a>
+    <a asp-action="Events" class="@Cls("Events")">Мероприятия</a>
+    <a asp-action="Reviews" class="@Cls("Reviews")">Отзывы</a>
+    <a asp-action="Messages" class="@Cls("Messages")">Сообщения</a>
+    @if (isAdmin)
+    {
+        <a asp-action="Products" class="@Cls("Products")">Товары</a>
+        <a asp-action="Orders" class="@Cls("Orders")">Заказы</a>
+        <a asp-action="Users" class="@Cls("Users")">Пользователи и роли</a>
+    }
+</aside>
