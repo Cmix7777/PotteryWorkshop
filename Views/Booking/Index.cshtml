@@ -1,0 +1,74 @@
+@using PotteryWorkshop.Logic
+@model List<Lesson>
+@{
+    ViewData["Title"] = "Запись на занятия";
+    var services = (List<Service>)ViewBag.Services;
+    var selected = (int?)ViewBag.ServiceId;
+}
+<section class="page-hero">
+    <div class="container">
+        <span class="overline overline--light">Запись онлайн</span>
+        <h1>Запись на занятия</h1>
+        <p>Выберите направление и удобное время. После записи администратор подтвердит её, статус появится в разделе «Мои записи».</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        <div class="filter">
+            <span class="muted small">Направление:</span>
+            <a asp-action="Index" class="chip @(selected == null ? "chip--active" : "")">Все</a>
+            @foreach (var s in services)
+            {
+                <a asp-action="Index" asp-route-serviceId="@s.Id" class="chip @(selected == s.Id ? "chip--active" : "")">@s.Title</a>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <p class="muted">На ближайшие дни занятий нет. Загляните позже или позвоните нам.</p>
+        }
+        else
+        {
+            <div class="lesson-table">
+                <div class="lesson-table__head">
+                    <span>Дата и время</span>
+                    <span>Занятие</span>
+                    <span>Мастер</span>
+                    <span>Цена</span>
+                    <span>Места</span>
+                    <span></span>
+                </div>
+                @foreach (var lesson in Model)
+                {
+                    var free = BookingManager.FreePlaces(lesson);
+                    <div class="lesson-table__row">
+                        <strong>@lesson.StartsAt.ToString("ddd, d MMMM, HH:mm")</strong>
+                        <span>@lesson.Service.Title</span>
+                        <span class="muted">@lesson.Teacher</span>
+                        <span>@lesson.Service.Price.ToString("N0") ₽</span>
+                        <span class="@(free == 0 ? "text-danger" : "")">@(free > 0 ? $"свободно {free} из {lesson.PlacesTotal}" : "мест нет")</span>
+                        <span>
+                            @if (free == 0)
+                            {
+                                <button class="btn btn--small" disabled>Мест нет</button>
+                            }
+                            else if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <form asp-action="Create" method="post" class="inline-form">
+                                    <input type="hidden" name="lessonId" value="@lesson.Id" />
+                                    <button type="submit" class="btn btn--small">Записаться</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="/Booking" class="btn btn--outline btn--small">Войти, чтобы записаться</a>
+                            }
+                        </span>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

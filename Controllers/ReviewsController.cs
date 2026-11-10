@@ -1,85 +1,79 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PotteryWorkshop.Data;
+using PotteryWorkshop.Logic;
 using PotteryWorkshop.Models;
-using System.Linq;
-using System.Threading.Tasks;
+using PotteryWorkshop.ViewModels;
 
 namespace PotteryWorkshop.Controllers;
 
-public class ReviewsController : Controller
+/// <summary>Отзывы: список опубликованных с фильтром по услуге и форма нового отзыва.</summary>
+public class ReviewsController : BaseController
 {
     private readonly AppDbContext _db;
+    private readonly ReviewManager _reviews;
 
-    public ReviewsController(AppDbContext db)
+    public ReviewsController(AppDbContext db, ReviewManager reviews)
     {
         _db = db;
+        _reviews = reviews;
     }
 
-    // GET: /Reviews
-    // Показывает список опубликованных отзывов с возможностью фильтрации
     public async Task<IActionResult> Index(string? filter)
     {
-        // Базовый запрос: берем только одобренные отзывы
-        var query = _db.Reviews.Where(r => r.Status == "опубликован");
+        // Только отзывы, прошедшие модерацию
+        var query = _db.Reviews
+            .Include(r => r.User)
+            .Where(r => r.Status == ReviewStatus.Published);
 
-        // Если выбран фильтр, добавляем условие
+        // Список фильтров собираем до фильтрации, чтобы кнопки не пропадали
+        ViewBag.Filters = await query
+            .Where(r => r.ServiceType != "")
+            .Select(r => r.ServiceType)
+            .Distinct()
+            .ToListAsync();
+        ViewBag.CurrentFilter = filter;
+
         if (!string.IsNullOrEmpty(filter))
         {
             query = query.Where(r => r.ServiceType == filter);
         }
 
-        // Сортировка: новые отзывы сверху
-        var reviews = await query.OrderByDescending(r => r.CreatedAt).ToListAsync();
-
-        // Собираем список уникальных типов услуг для sidebar (только непустые)
-        var filters = reviews
-            .Select(r => r.ServiceType)
-            .Where(s => !string.IsNullOrWhiteSpace(s))
-            .Distinct()
-            .ToList();
-
-        ViewBag.Filters = filters;
-        ViewBag.CurrentFilter = filter;
-
-        return View(reviews);
+        return View(await query.OrderByDescending(r => r.CreatedAt).ToListAsync());
     }
 
-    // GET: /Reviews/Create
-    // Страница с формой добавления отзыва
-    public IActionResult Create()
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Create()
     {
-        return View();
+        ViewBag.CanReview = await _reviews.CanLeaveReviewAsync(CurrentUserId);
+        return View(new ReviewFormViewModel());
     }
 
-    // POST: /Reviews/Create
-    // Обработка формы после нажатия кнопки "Отправить"
     [HttpPost]
+    [Authorize]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Review review)
+    public async Task<IActionResult> Create(ReviewFormViewModel model)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            // В реальном проекте UserId берется из авторизованного пользователя
-            review.UserId = 1; 
-            
-            // Новые отзывы сначала попадают на модерацию
-            review.Status = "на модерации";
-            review.CreatedAt = DateTime.Now;
-
-            _db.Reviews.Add(review);
-            await _db.SaveChangesAsync();
-
-            // Перенаправляем на страницу успеха
-            return RedirectToAction("Success");
+            ViewBag.CanReview = true;
+            return View(model);
         }
 
-        // Если есть ошибки валидации, возвращаем форму с введенными данными
-        return View(review);
+        var result = await _reviews.AddAsync(CurrentUserId, model.ServiceType, model.Rating, model.Text);
+
+        if (!result.Success)
+        {
+            ViewBag.CanReview = false;
+            ModelState.AddModelError(string.Empty, result.Error!);
+            return View(model);
+        }
+
+        return RedirectToAction(nameof(Success));
     }
 
-    // GET: /Reviews/Success
-    // Страница благодарности после отправки отзыва
     public IActionResult Success()
     {
         return View();

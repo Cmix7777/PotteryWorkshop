@@ -1,0 +1,48 @@
+@model List<Booking>
+@{
+    ViewData["Title"] = "Мои записи";
+}
+<section class="section">
+    <div class="container narrow">
+        <span class="overline">Личный кабинет</span>
+        <h1>Мои записи</h1>
+
+        @if (!Model.Any())
+        {
+            <p class="muted">Вы ещё никуда не записались. <a asp-action="Index">Выбрать занятие</a></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Занятие</th>
+                        <th>Дата и время</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model)
+                    {
+                        var canCancel = (booking.Status == BookingStatus.New || booking.Status == BookingStatus.Confirmed)
+                                        && booking.Lesson.StartsAt > DateTime.Now;
+                        <tr>
+                            <td>@booking.Lesson.Service.Title</td>
+                            <td>@booking.Lesson.StartsAt.ToString("d MMMM, HH:mm")</td>
+                            <td><span class="status status--@(booking.Status.ToString().ToLower())">@booking.Status.ToRussian()</span></td>
+                            <td>
+                                @if (canCancel)
+                                {
+                                    <form asp-action="Cancel" asp-route-id="@booking.Id" method="post" class="inline-form">
+                                        <button type="submit" class="link-button link-button--accent">Отменить</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</section>

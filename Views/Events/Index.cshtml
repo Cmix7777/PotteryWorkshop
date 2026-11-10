@@ -1,0 +1,66 @@
+@using PotteryWorkshop.Logic
+@model List<Event>
+@{
+    ViewData["Title"] = "Мероприятия";
+    var mine = (List<int>)ViewBag.MyEventIds;
+    var loggedIn = User.Identity?.IsAuthenticated == true;
+}
+<section class="page-hero">
+    <div class="container">
+        <span class="overline overline--light">Мероприятия</span>
+        <h1>Календарь мастер-классов</h1>
+        <p>Тематические встречи, роспись керамики и праздничные мастер-классы. Количество мест ограничено.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <p class="muted">Ближайших мероприятий пока нет. Следите за анонсами.</p>
+        }
+        else
+        {
+            <div class="grid grid--3">
+                @foreach (var ev in Model)
+                {
+                    var free = EventManager.FreePlaces(ev);
+                    var registered = mine.Contains(ev.Id);
+                    <article class="card card--padded">
+                        <span class="badge">@ev.StartsAt.ToString("d MMMM, dddd, HH:mm")</span>
+                        <h3>@ev.Title</h3>
+                        <p class="muted">@ev.Description</p>
+                        <p class="small">
+                            <span class="muted">Место:</span> @ev.Place<br />
+                            <span class="muted">Стоимость:</span> @(ev.Price == 0 ? "бесплатно" : ev.Price.ToString("N0") + " ₽")<br />
+                            <span class="muted">Свободных мест:</span> @free из @ev.PlacesTotal
+                        </p>
+                        <div class="card__footer">
+                            @if (registered)
+                            {
+                                <span class="status status--visited">Вы записаны</span>
+                                <form asp-action="Unregister" asp-route-id="@ev.Id" method="post" class="inline-form">
+                                    <button type="submit" class="link-button">Отменить</button>
+                                </form>
+                            }
+                            else if (free <= 0)
+                            {
+                                <span class="status status--cancelled">Мест нет</span>
+                            }
+                            else if (loggedIn)
+                            {
+                                <form asp-action="Register" asp-route-id="@ev.Id" method="post" class="inline-form">
+                                    <button type="submit" class="btn btn--small">Зарегистрироваться</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="/Events" class="btn btn--outline btn--small">Войти, чтобы записаться</a>
+                            }
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+    </div>
+</section>
