@@ -1,0 +1,41 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+<section class="section">
+    <div class="container form-page">
+        <h1>Регистрация</h1>
+        <form asp-action="Register" method="post" class="form-card">
+            <div asp-validation-summary="ModelOnly" class="form-error"></div>
+
+            <label asp-for="FullName"></label>
+            <input asp-for="FullName" />
+            <span asp-validation-for="FullName" class="field-error"></span>
+
+            <label asp-for="Email"></label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email" class="field-error"></span>
+
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" placeholder="+7 (___) ___-__-__" />
+            <span asp-validation-for="Phone" class="field-error"></span>
+
+            <label asp-for="Password"></label>
+            <input asp-for="Password" />
+            <span asp-validation-for="Password" class="field-error"></span>
+
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" />
+            <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+
+            <label class="checkbox">
+                <input asp-for="AcceptPersonalData" /> Я согласен на обработку персональных данных и принимаю
+                <a asp-controller="Home" asp-action="Privacy" target="_blank">политику конфиденциальности</a>
+            </label>
+            <span asp-validation-for="AcceptPersonalData" class="field-error"></span>
+
+            <button type="submit" class="btn btn--wide">Зарегистрироваться</button>
+            <p class="muted small">Уже есть аккаунт? <a asp-action="Login">Войдите</a></p>
+        </form>
+    </div>
+</section>

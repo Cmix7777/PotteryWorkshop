@@ -1,5 +1,9 @@
-   [Bb]in/
-   [Oo]bj/
-   *.user
-   *.suo
-   *.db
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal

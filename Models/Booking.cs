@@ -1,17 +1,17 @@
 namespace PotteryWorkshop.Models;
 
+/// <summary>Запись пользователя на занятие (таблица bookings).</summary>
 public class Booking
 {
     public int Id { get; set; }
+
     public int UserId { get; set; }
-    public User? User { get; set; }
-    public int ServiceId { get; set; }  // Заменили LessonId на ServiceId для простоты
-    public Service? Service { get; set; }
-    public string FullName { get; set; } = "";
-    public string Phone { get; set; } = "";
-    public string Email { get; set; } = "";
-    public DateTime PreferredDate { get; set; }
-    public string Comment { get; set; } = "";
-    public string Status { get; set; } = "новая";
+    public User User { get; set; } = null!;
+
+    public int LessonId { get; set; }
+    public Lesson Lesson { get; set; } = null!;
+
+    public BookingStatus Status { get; set; } = BookingStatus.New;
+
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
