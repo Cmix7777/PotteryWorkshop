@@ -1,0 +1,6 @@
+{
+  "runtime": "node_web",
+  "installCommand": "sh layero/build.sh",
+  "startCommand": "sh layero/start.sh",
+  "port": 3000
+}

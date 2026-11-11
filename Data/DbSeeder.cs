@@ -37,19 +37,19 @@ public static class DbSeeder
         {
             Title = "Занятия на гончарном круге",
             Description = "Курс из 8 занятий: центровка глины, вытягивание стенок, первые чашки и тарелки.",
-            Kind = ServiceKind.Lesson, Price = 1500, DurationMinutes = 120
+            Kind = ServiceKind.Lesson, Price = 1500, DurationMinutes = 120, PhotoUrl = "/img/service-wheel.jpg"
         };
         var master = new Service
         {
             Title = "Мастер-классы",
             Description = "Разовые встречи на один вечер для тех, кто хочет попробовать. Можно прийти вдвоём.",
-            Kind = ServiceKind.MasterClass, Price = 2000, DurationMinutes = 180
+            Kind = ServiceKind.MasterClass, Price = 2000, DurationMinutes = 180, PhotoUrl = "/img/service-masterclass.jpg"
         };
         var personal = new Service
         {
             Title = "Индивидуальные уроки",
             Description = "Занятие один на один с мастером, программа под ваш уровень и задачу.",
-            Kind = ServiceKind.Individual, Price = 3500, DurationMinutes = 90
+            Kind = ServiceKind.Individual, Price = 3500, DurationMinutes = 90, PhotoUrl = "/img/service-individual.jpg"
         };
         db.Services.AddRange(wheel, master, personal);
 
@@ -66,19 +66,19 @@ public static class DbSeeder
             {
                 Title = "Первый горшок за вечер",
                 Description = "Знакомство с кругом для новичков, каждый уходит со своей чашкой.",
-                StartsAt = today.AddDays(7).AddHours(18), Place = "Большой зал", PlacesTotal = 8, Price = 2000
+                StartsAt = today.AddDays(7).AddHours(18), Place = "Большой зал", PlacesTotal = 8, Price = 2000, PhotoUrl = "/img/event-first-pot.jpg"
             },
             new Event
             {
                 Title = "Роспись керамики",
                 Description = "Расписываем готовые тарелки ангобами и глазурью, потом обжиг.",
-                StartsAt = today.AddDays(14).AddHours(12), Place = "Малый зал", PlacesTotal = 10, Price = 1800
+                StartsAt = today.AddDays(14).AddHours(12), Place = "Малый зал", PlacesTotal = 10, Price = 1800, PhotoUrl = "/img/event-painting.jpg"
             },
             new Event
             {
                 Title = "Новогодние игрушки из глины",
                 Description = "Лепим и раскрашиваем ёлочные игрушки, подходит детям от 7 лет.",
-                StartsAt = today.AddDays(21).AddHours(17), Place = "Большой зал", PlacesTotal = 12, Price = 1500
+                StartsAt = today.AddDays(21).AddHours(17), Place = "Большой зал", PlacesTotal = 12, Price = 1500, PhotoUrl = "/img/event-newyear.jpg"
             });
 
         var ready = new Category { Name = "Готовые изделия" };
@@ -86,24 +86,24 @@ public static class DbSeeder
         var tools = new Category { Name = "Инструменты" };
         db.Categories.AddRange(ready, materials, tools);
 
-        var mug = new Product { Category = ready, Title = "Кружка «Охра», 350 мл", Price = 1200, Stock = 5, IsFeatured = true,
+        var mug = new Product { Category = ready, Title = "Кружка «Охра», 350 мл", Price = 1200, Stock = 5, IsFeatured = true, PhotoUrl = "/img/product-mug.jpg",
             Description = "Кружка ручной работы, покрыта матовой глазурью охристого цвета. Можно мыть в посудомоечной машине." };
-        var bowls = new Product { Category = ready, Title = "Набор пиал, 2 шт.", Price = 1900, Stock = 3, IsFeatured = true,
+        var bowls = new Product { Category = ready, Title = "Набор пиал, 2 шт.", Price = 1900, Stock = 3, IsFeatured = true, PhotoUrl = "/img/product-bowls.jpg",
             Description = "Две пиалы по 250 мл для чая или супа, глазурь «морская волна» с переходом цвета." };
         db.Products.AddRange(
             mug,
             bowls,
-            new Product { Category = ready, Title = "Ваза «Терракота», 25 см", Price = 2400, Stock = 2,
+            new Product { Category = ready, Title = "Ваза «Терракота», 25 см", Price = 2400, Stock = 2, PhotoUrl = "/img/product-vase.jpg",
                 Description = "Ваза из красной глины без глазури снаружи, внутри покрыта прозрачной глазурью и держит воду." },
-            new Product { Category = ready, Title = "Тарелка «Лес», 22 см", Price = 1600, Stock = 4,
+            new Product { Category = ready, Title = "Тарелка «Лес», 22 см", Price = 1600, Stock = 4, PhotoUrl = "/img/product-plate.jpg",
                 Description = "Обеденная тарелка с оттиском листьев папоротника по краю." },
-            new Product { Category = materials, Title = "Глина белая, 5 кг", Price = 650, Stock = 20, IsFeatured = true,
+            new Product { Category = materials, Title = "Глина белая, 5 кг", Price = 650, Stock = 20, IsFeatured = true, PhotoUrl = "/img/product-clay.jpg",
                 Description = "Пластичная белая глина для гончарного круга и ручной лепки, температура обжига 1200 °C." },
-            new Product { Category = materials, Title = "Глазурь прозрачная, 1 л", Price = 480, Stock = 10,
+            new Product { Category = materials, Title = "Глазурь прозрачная, 1 л", Price = 480, Stock = 10, PhotoUrl = "/img/product-glaze.jpg",
                 Description = "Прозрачная блестящая глазурь для посуды, безопасна для контакта с пищей." },
-            new Product { Category = tools, Title = "Набор стеков, 8 шт.", Price = 890, Stock = 7, IsFeatured = true,
+            new Product { Category = tools, Title = "Набор стеков, 8 шт.", Price = 890, Stock = 7, IsFeatured = true, PhotoUrl = "/img/product-tools.jpg",
                 Description = "Деревянные и металлические стеки для лепки, резьбы и выравнивания стенок." },
-            new Product { Category = tools, Title = "Нож для резки глины", Price = 240, Stock = 15,
+            new Product { Category = tools, Title = "Нож для резки глины", Price = 240, Stock = 15, PhotoUrl = "/img/product-knife.jpg",
                 Description = "Струна с деревянными ручками для отрезания изделия от круга." });
 
         // Прошедшее занятие и выданный заказ у Марии: по ним она может оставлять отзывы

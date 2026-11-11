@@ -2,11 +2,16 @@
 @{
     ViewData["Title"] = "Мои записи";
 }
+<section class="page-hero page-hero--cabinet">
+    <div class="container">
+        <span class="overline overline--light">Личный кабинет</span>
+        <h1>Мои записи</h1>
+        <p>Здесь видно, на какие занятия вы записаны и подтверждена ли запись.</p>
+    </div>
+</section>
+
 <section class="section">
     <div class="container narrow">
-        <span class="overline">Личный кабинет</span>
-        <h1>Мои записи</h1>
-
         @if (!Model.Any())
         {
             <p class="muted">Вы ещё никуда не записались. <a asp-action="Index">Выбрать занятие</a></p>

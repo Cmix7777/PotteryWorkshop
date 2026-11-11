@@ -7,7 +7,7 @@
         <a asp-action="Index" class="link">← Вернуться в каталог</a>
 
         <div class="product">
-            <div class="photo photo--big">фото изделия</div>
+            <img class="photo photo--big" src="@(Model.PhotoUrl ?? "/img/no-photo.jpg")" alt="@Model.Title" />
 
             <div class="product__info">
                 <span class="muted">@Model.Category.Name</span>

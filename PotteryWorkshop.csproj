@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <!-- С .NET 10 SDK проект собирается под .NET 10, иначе под .NET 8.
+         Так не нужно докачивать справочные сборки другой версии. -->
+    <TargetFramework Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(NETCoreSdkVersion)', '10.0'))">net10.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- Запустится и там, где установлен только .NET 9 или 10 -->
@@ -11,8 +14,17 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+  <!-- SQLite без тяжёлого пакета с нативной библиотекой: на Windows используется встроенный winsqlite3.dll,
+       на Linux (например, в Docker) системная библиотека libsqlite3 -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="10.0.0" />
+    <PackageReference Include="SQLitePCLRaw.provider.winsqlite3" Version="2.1.11" />
+    <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.11" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.11" />
+    <PackageReference Include="SQLitePCLRaw.provider.winsqlite3" Version="2.1.6" />
+    <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.6" />
   </ItemGroup>
 
   <!-- Проект с тестами лежит внутри папки, но собирается отдельно -->

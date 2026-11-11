@@ -1,7 +1,7 @@
 @{
     ViewData["Title"] = "О мастерской";
 }
-<section class="page-hero">
+<section class="page-hero page-hero--about">
     <div class="container">
         <span class="overline overline--light">О мастерской</span>
         <h1>Место, где глина становится искусством</h1>
@@ -17,7 +17,7 @@
             <p class="muted">Мастерская открылась в 2018 году в небольшом помещении в центре Ижевска. Тогда у нас было два гончарных круга и одна печь. Сегодня у нас шесть кругов, три мастера и сотни довольных учеников.</p>
             <p class="muted">Мы верим, что работа с глиной не просто хобби, а способ замедлиться, почувствовать материал и создать что-то настоящее своими руками.</p>
         </div>
-        <div class="photo">фото мастерской 2018 года</div>
+        <img class="photo" src="~/img/history.jpg" alt="Полки с изделиями в мастерской" />
     </div>
 </section>
 
@@ -51,7 +51,7 @@
         <h2>Наши мастера</h2>
         <div class="grid grid--3 values">
             <article class="card">
-                <div class="photo photo--card">фото мастера</div>
+                <img class="photo photo--master" src="~/img/master-anna.jpg" alt="Анна Петрова" />
                 <div class="card__body">
                     <h3>Анна Петрова</h3>
                     <span class="price-line">Главный мастер, 8 лет опыта</span>
@@ -59,7 +59,7 @@
                 </div>
             </article>
             <article class="card">
-                <div class="photo photo--card">фото мастера</div>
+                <img class="photo photo--master" src="~/img/master-ivan.jpg" alt="Иван Сидоров" />
                 <div class="card__body">
                     <h3>Иван Сидоров</h3>
                     <span class="price-line">Мастер-керамист, 5 лет опыта</span>
@@ -67,13 +67,26 @@
                 </div>
             </article>
             <article class="card">
-                <div class="photo photo--card">фото мастера</div>
+                <img class="photo photo--master" src="~/img/master-maria.jpg" alt="Мария Козлова" />
                 <div class="card__body">
                     <h3>Мария Козлова</h3>
                     <span class="price-line">Преподаватель, 6 лет опыта</span>
                     <p class="muted">Работа с детьми, семейные мастер-классы.</p>
                 </div>
             </article>
+        </div>
+    </div>
+</section>
+
+<section class="section section--sand">
+    <div class="container">
+        <span class="overline">Галерея</span>
+        <h2>Работы наших учеников и мастеров</h2>
+        <div class="gallery">
+            <img src="~/img/gallery-1.jpg" alt="Вазы с глазурью" />
+            <img src="~/img/gallery-2.jpg" alt="Посуда на полках" />
+            <img src="~/img/gallery-3.jpg" alt="Небольшие вазы" />
+            <img src="~/img/gallery-4.jpg" alt="Пиалы после обжига" />
         </div>
     </div>
 </section>

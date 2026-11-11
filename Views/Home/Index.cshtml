@@ -14,7 +14,7 @@
                 <a asp-controller="Events" asp-action="Index" class="btn btn--outline-light">Смотреть расписание</a>
             </div>
         </div>
-        <div class="photo photo--dark">фото процесса лепки</div>
+        <img class="photo photo--dark" src="~/img/hero.jpg" alt="Руки мастера за гончарным кругом" />
     </div>
 </section>
 
@@ -26,7 +26,7 @@
             <p class="muted">Небольшая мастерская в центре города: шесть гончарных кругов, своя печь для обжига и мастера, которые объясняют без спешки. Здесь можно прийти на разовый мастер-класс, пройти курс или купить готовые изделия.</p>
             <a asp-controller="Home" asp-action="About" class="link">Подробнее о мастерской →</a>
         </div>
-        <div class="photo">фото мастерской</div>
+        <img class="photo" src="~/img/workshop.jpg" alt="Мастерская" />
     </div>
 </section>
 
@@ -43,7 +43,7 @@
             @foreach (var service in Model.Services)
             {
                 <article class="card">
-                    <div class="photo photo--card">фото занятия</div>
+                    <img class="photo photo--card" src="@(service.PhotoUrl ?? "/img/no-photo.jpg")" alt="@service.Title" />
                     <div class="card__body">
                         <h3>@service.Title</h3>
                         <p class="muted">@service.Description</p>
@@ -68,7 +68,9 @@
         <div class="grid grid--3">
             @foreach (var item in Model.Events)
             {
-                <article class="card card--padded">
+                <article class="card">
+                    <img class="photo photo--card" src="@(item.Event.PhotoUrl ?? "/img/no-photo.jpg")" alt="@item.Event.Title" />
+                    <div class="card__body">
                     <span class="badge">@item.Event.StartsAt.ToString("d MMMM, HH:mm")</span>
                     <h3>@item.Event.Title</h3>
                     <p class="muted">@item.Event.Description</p>
@@ -82,6 +84,7 @@
                         {
                             <span class="muted small">Мест нет</span>
                         }
+                    </div>
                     </div>
                 </article>
             }
@@ -102,7 +105,7 @@
             @foreach (var product in Model.Products)
             {
                 <article class="card">
-                    <div class="photo photo--product">фото изделия</div>
+                    <img class="photo photo--product" src="@(product.PhotoUrl ?? "/img/no-photo.jpg")" alt="@product.Title" />
                     <div class="card__body">
                         <span class="muted small">@product.Category.Name</span>
                         <h4><a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="card-link">@product.Title</a></h4>

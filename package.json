@@ -1,0 +1,7 @@
+{
+  "name": "pottery-workshop",
+  "private": true,
+  "scripts": {
+    "start": "sh layero/start.sh"
+  }
+}

@@ -22,6 +22,24 @@ dotnet run
 dotnet test PotteryWorkshop.Tests
 ```
 
+## Публикация
+
+Сборка готовой версии для сервера:
+
+```
+dotnet publish -c Release -o publish
+```
+
+В папке `publish` появится всё нужное для запуска: `dotnet PotteryWorkshop.dll`.
+Строка подключения к базе задаётся в `appsettings.json` (`ConnectionStrings:Default`).
+
+Запуск в Docker:
+
+```
+docker build -t pottery-workshop .
+docker run -p 8080:8080 pottery-workshop
+```
+
 ## Тестовые аккаунты
 
 | Роль | Email | Пароль |
@@ -55,3 +73,7 @@ dotnet test PotteryWorkshop.Tests
 | `Views` | страницы Razor |
 | `wwwroot/css` | стили по макету из Figma |
 | `PotteryWorkshop.Tests` | unit-тесты на xUnit |
+
+## Фотографии
+
+Все фотографии на сайте лежат в папке `wwwroot/img` и взяты с Unsplash (unsplash.com). Лицензия Unsplash разрешает бесплатно использовать снимки, в том числе без указания автора. Товары и мероприятия, добавленные через админ-панель, пока показываются с общей картинкой `no-photo.jpg`.

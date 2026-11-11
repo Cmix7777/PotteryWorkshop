@@ -9,6 +9,9 @@ var culture = new CultureInfo("ru-RU");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
+// Подключаем SQLite из системы (см. Data/SqliteSetup.cs)
+SqliteSetup.Init();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // MVC: контроллеры + представления Razor

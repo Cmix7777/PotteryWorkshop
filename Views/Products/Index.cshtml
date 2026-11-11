@@ -5,7 +5,7 @@
     var current = (int?)ViewBag.CurrentCategoryId;
     var search = ViewBag.Search as string;
 }
-<section class="page-hero">
+<section class="page-hero page-hero--shop">
     <div class="container">
         <span class="overline overline--light">Магазин</span>
         <h1>Изделия ручной работы</h1>
@@ -46,7 +46,7 @@
                     @foreach (var product in Model)
                     {
                         <article class="card">
-                            <div class="photo photo--product">фото изделия</div>
+                            <img class="photo photo--product" src="@(product.PhotoUrl ?? "/img/no-photo.jpg")" alt="@product.Title" />
                             <div class="card__body">
                                 <span class="muted small">@product.Category.Name</span>
                                 <h4><a asp-action="Details" asp-route-id="@product.Id" class="card-link">@product.Title</a></h4>

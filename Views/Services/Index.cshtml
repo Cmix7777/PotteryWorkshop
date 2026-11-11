@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Услуги";
 }
-<section class="page-hero">
+<section class="page-hero page-hero--services">
     <div class="container">
         <span class="overline overline--light">Услуги</span>
         <h1>Чему можно научиться</h1>
@@ -16,7 +16,7 @@
         @foreach (var service in Model)
         {
             <article class="service-row">
-                <div class="photo photo--service">фото занятия</div>
+                <img class="photo photo--service" src="@(service.PhotoUrl ?? "/img/no-photo.jpg")" alt="@service.Title" />
                 <div class="service-row__info">
                     <span class="badge">@service.Kind.ToRussian()</span>
                     <h2>@service.Title</h2>

@@ -3,7 +3,9 @@
     ViewData["Title"] = "Регистрация";
 }
 <section class="section">
-    <div class="container form-page">
+    <div class="container auth">
+        <img class="auth__photo" src="~/img/auth.jpg" alt="Руки в глине за гончарным кругом" />
+        <div class="form-page">
         <h1>Регистрация</h1>
         <form asp-action="Register" method="post" class="form-card">
             <div asp-validation-summary="ModelOnly" class="form-error"></div>
@@ -37,5 +39,6 @@
             <button type="submit" class="btn btn--wide">Зарегистрироваться</button>
             <p class="muted small">Уже есть аккаунт? <a asp-action="Login">Войдите</a></p>
         </form>
+        </div>
     </div>
 </section>
