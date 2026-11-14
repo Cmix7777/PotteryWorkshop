@@ -1,6 +1,6 @@
 namespace PotteryWorkshop.Models;
 
-/// <summary>Русские названия статусов и видов услуг для вывода на страницах.</summary>
+
 public static class StatusNames
 {
     public static string ToRussian(this BookingStatus status) => status switch
