@@ -4,7 +4,7 @@ using PotteryWorkshop.Data;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Магазин: каталог с фильтром по категориям и поиском, карточка товара.</summary>
+/// каталог
 public class ProductsController : Controller
 {
     private readonly AppDbContext _db;
@@ -23,7 +23,7 @@ public class ProductsController : Controller
             products = products.Where(p => p.CategoryId == categoryId.Value);
         }
 
-        // Поиск по названию и описанию без учёта регистра
+        // Поиск
         if (!string.IsNullOrWhiteSpace(search))
         {
             var text = search.Trim().ToLower();
