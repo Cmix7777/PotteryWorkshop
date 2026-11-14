@@ -4,7 +4,7 @@ using PotteryWorkshop.Data;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Страница «Услуги»: все направления и ближайшие занятия по каждому.</summary>
+/// Услуги
 public class ServicesController : Controller
 {
     private readonly AppDbContext _db;
@@ -18,7 +18,6 @@ public class ServicesController : Controller
     {
         var now = DateTime.Now;
 
-        // Для каждой услуги подгружаем только будущие занятия и записи на них (чтобы посчитать места)
         var services = await _db.Services
             .Include(s => s.Lessons.Where(l => l.StartsAt > now).OrderBy(l => l.StartsAt))
                 .ThenInclude(l => l.Bookings)
