@@ -4,7 +4,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Logic;
 
-/// <summary>Модуль регистрации на мероприятия.</summary>
+/// Модуль регистрации на мероприятия
 public class EventManager
 {
     private readonly AppDbContext _db;
@@ -19,7 +19,7 @@ public class EventManager
         return ev.PlacesTotal - ev.Registrations.Count;
     }
 
-    /// <summary>Регистрирует пользователя, если мероприятие не прошло, есть места и он ещё не зарегистрирован.</summary>
+    /// Регистрирует пользователя, если мероприятие не прошло, есть места и он ещё не зарегистрирован
     public async Task<OperationResult> RegisterAsync(int userId, int eventId)
     {
         var ev = await _db.Events
@@ -52,7 +52,7 @@ public class EventManager
         return OperationResult.Ok();
     }
 
-    /// <summary>Отменяет регистрацию на будущее мероприятие.</summary>
+    /// Отменяет регистрацию на будущее мероприятие
     public async Task<OperationResult> UnregisterAsync(int userId, int eventId)
     {
         var registration = await _db.EventRegistrations
