@@ -9,7 +9,7 @@ var culture = new CultureInfo("ru-RU");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-// Подключа SQLite 
+// Подключ SQLite 
 SqliteSetup.Init();
 
 var builder = WebApplication.CreateBuilder(args);
