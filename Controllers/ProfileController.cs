@@ -6,7 +6,7 @@ using PotteryWorkshop.ViewModels;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Личный кабинет: профиль, ближайшие записи, мероприятия и история заказов.</summary>
+/// Личный кабинет
 [Authorize]
 public class ProfileController : BaseController
 {
