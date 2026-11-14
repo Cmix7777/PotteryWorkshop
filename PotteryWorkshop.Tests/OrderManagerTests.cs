@@ -5,7 +5,6 @@ using Xunit;
 
 namespace PotteryWorkshop.Tests;
 
-/// <summary>Проверки модуля корзины и заказов.</summary>
 public class OrderManagerTests
 {
     [Fact]
