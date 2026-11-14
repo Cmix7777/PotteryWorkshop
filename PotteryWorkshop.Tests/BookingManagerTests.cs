@@ -5,7 +5,6 @@ using Xunit;
 
 namespace PotteryWorkshop.Tests;
 
-/// <summary>Проверки модуля записи на занятия.</summary>
 public class BookingManagerTests
 {
     [Fact]
