@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PotteryWorkshop.Models;
 
-/// <summary>Конкретное занятие в расписании (таблица lessons).</summary>
+
 public class Lesson
 {
     public int Id { get; set; }
