@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PotteryWorkshop.Models;
 
-/// <summary>Сообщение из формы обратной связи на странице «Контакты» (таблица feedback_messages).</summary>
+
 public class FeedbackMessage
 {
     public int Id { get; set; }
