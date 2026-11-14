@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PotteryWorkshop.Models;
 
-/// <summary>Пользователь сайта (таблица users).</summary>
+
 public class User
 {
     public int Id { get; set; }
@@ -10,7 +10,7 @@ public class User
     [Required, MaxLength(100)]
     public string Email { get; set; } = "";
 
-    /// <summary>Хеш пароля. Сам пароль в базе не хранится.</summary>
+
     [Required]
     public string PasswordHash { get; set; } = "";
 
