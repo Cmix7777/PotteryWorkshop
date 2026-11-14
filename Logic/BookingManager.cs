@@ -4,7 +4,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Logic;
 
-/// <summary>Результат операции: успешно или текст ошибки для пользователя.</summary>
+/// Результат операции: успешно или текст ошибки
 public class OperationResult
 {
     public bool Success { get; private init; }
@@ -14,10 +14,7 @@ public class OperationResult
     public static OperationResult Fail(string error) => new() { Success = false, Error = error };
 }
 
-/// <summary>
-/// Модуль записи на занятия. Вся логика и проверки собраны здесь, а не в контроллере,
-/// чтобы их можно было отдельно протестировать.
-/// </summary>
+/// Модуль записи на занятия
 public class BookingManager
 {
     private readonly AppDbContext _db;
@@ -27,13 +24,13 @@ public class BookingManager
         _db = db;
     }
 
-    /// <summary>Сколько мест осталось: всего мест минус неотменённые записи.</summary>
+    /// Сколько мест осталось: всего мест минус неотменённые записи
     public static int FreePlaces(Lesson lesson)
     {
         return lesson.PlacesTotal - lesson.Bookings.Count(b => b.Status != BookingStatus.Cancelled);
     }
 
-    /// <summary>Записывает пользователя на занятие, если это разрешено правилами.</summary>
+    /// Записывает пользователя на занятие, если это разрешено правилами
     public async Task<OperationResult> BookAsync(int userId, int lessonId)
     {
         var lesson = await _db.Lessons
@@ -72,7 +69,7 @@ public class BookingManager
         return OperationResult.Ok();
     }
 
-    /// <summary>Отменяет запись. Клиент может отменить только свою запись и только до начала занятия.</summary>
+    /// Отменяет запись. Клиент может отменить только свою запись и только до начала занятия
     public async Task<OperationResult> CancelAsync(int userId, int bookingId)
     {
         var booking = await _db.Bookings
