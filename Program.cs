@@ -4,24 +4,23 @@ using Microsoft.EntityFrameworkCore;
 using PotteryWorkshop.Data;
 using PotteryWorkshop.Logic;
 
-// Русская культура: даты "14 ноября", цены с пробелом между разрядами
+
 var culture = new CultureInfo("ru-RU");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-// Подключаем SQLite из системы (см. Data/SqliteSetup.cs)
+// Подключа SQLite 
 SqliteSetup.Init();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MVC: контроллеры + представления Razor
+// MVC
 builder.Services.AddControllersWithViews();
 
-// База данных SQLite, строка подключения в appsettings.json
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
-// Вход через cookie: после логина браузер хранит зашифрованную куку с данными пользователя
+// Вход через cookie
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -40,7 +39,7 @@ builder.Services.AddScoped<ReviewManager>();
 
 var app = builder.Build();
 
-// При запуске создаём базу (если её нет) и заполняем тестовыми данными
+// При запуске создаём базу если нет и заполняем тестовыми данными
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -59,7 +58,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Порядок важен: сначала узнаём, кто пользователь, потом проверяем права
 app.UseAuthentication();
 app.UseAuthorization();
 
