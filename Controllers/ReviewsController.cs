@@ -8,7 +8,7 @@ using PotteryWorkshop.ViewModels;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Отзывы: список опубликованных с фильтром по услуге и форма нового отзыва.</summary>
+/// Отзывы
 public class ReviewsController : BaseController
 {
     private readonly AppDbContext _db;
@@ -22,12 +22,12 @@ public class ReviewsController : BaseController
 
     public async Task<IActionResult> Index(string? filter)
     {
-        // Только отзывы, прошедшие модерацию
+        // отзывы
         var query = _db.Reviews
             .Include(r => r.User)
             .Where(r => r.Status == ReviewStatus.Published);
 
-        // Список фильтров собираем до фильтрации, чтобы кнопки не пропадали
+        // Список фильтров
         ViewBag.Filters = await query
             .Where(r => r.ServiceType != "")
             .Select(r => r.ServiceType)
