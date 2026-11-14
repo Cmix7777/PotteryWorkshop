@@ -4,7 +4,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Logic;
 
-/// <summary>Модуль отзывов. По ТЗ отзыв можно оставить только после посещения занятия или покупки.</summary>
+/// Модуль отзывов
 public class ReviewManager
 {
     private readonly AppDbContext _db;
@@ -14,7 +14,7 @@ public class ReviewManager
         _db = db;
     }
 
-    /// <summary>Есть ли у пользователя посещённое занятие или выданный заказ.</summary>
+    /// Есть ли у пользователя посещённое занятие или выданный заказ
     public async Task<bool> CanLeaveReviewAsync(int userId)
     {
         var visited = await _db.Bookings.AnyAsync(b => b.UserId == userId && b.Status == BookingStatus.Visited);
@@ -22,7 +22,7 @@ public class ReviewManager
         return visited || bought;
     }
 
-    /// <summary>Сохраняет отзыв со статусом «на модерации».</summary>
+    /// Сохраняет отзыв со статусом на модерации
     public async Task<OperationResult> AddAsync(int userId, string serviceType, int rating, string text)
     {
         if (!await CanLeaveReviewAsync(userId))
