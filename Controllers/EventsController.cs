@@ -6,7 +6,7 @@ using PotteryWorkshop.Logic;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Календарь мероприятий и регистрация на них.</summary>
+/// Календарь мероприятий и регистрация на них
 public class EventsController : BaseController
 {
     private readonly AppDbContext _db;
