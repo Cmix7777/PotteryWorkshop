@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PotteryWorkshop.Models;
 
-/// <summary>Заказ в магазине (таблица orders).</summary>
+
 public class Order
 {
     public int Id { get; set; }
@@ -12,7 +12,6 @@ public class Order
 
     public OrderStatus Status { get; set; } = OrderStatus.New;
 
-    /// <summary>Сумма заказа в рублях.</summary>
     public int Total { get; set; }
 
     [MaxLength(20)]
