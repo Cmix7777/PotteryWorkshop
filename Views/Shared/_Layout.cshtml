@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header class="header">
+    <header class="header @(User.Identity?.IsAuthenticated == true ? "header--auth" : "")">
         <div class="container header__inner">
             <a class="logo" asp-controller="Home" asp-action="Index"><img src="~/img/logo.svg" alt="Гончарная мастерская" width="230" height="17" /></a>
 

@@ -98,6 +98,23 @@ a { color: var(--accent); }
 .header__user { display: flex; align-items: center; gap: 16px; font-size: 15px; white-space: nowrap; }
 .header__user > a:not(.btn) { color: var(--text); text-decoration: none; }
 .menu-toggle, .menu-button { display: none; }
+.logo { flex-shrink: 0; }
+.nav a { white-space: nowrap; }
+.header__user .btn { max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+
+/* Шапка в две строки: сверху логотип и кнопки пользователя, снизу меню.
+   У вошедшего пользователя справа больше кнопок, поэтому две строки у него на любом компьютере,
+   у гостя только на средних экранах */
+@media (min-width: 901px) {
+    .header--auth .header__inner { flex-wrap: wrap; row-gap: 0; min-height: 0; padding-top: 14px; }
+    .header--auth .header__user { margin-left: auto; }
+    .header--auth .nav { order: 3; flex-basis: 100%; gap: 28px; margin-top: 14px; padding: 12px 0 14px; border-top: 1px solid var(--line); }
+}
+@media (min-width: 901px) and (max-width: 1219px) {
+    .header .header__inner { flex-wrap: wrap; row-gap: 0; min-height: 0; padding-top: 14px; }
+    .header .header__user { margin-left: auto; }
+    .header .nav { order: 3; flex-basis: 100%; gap: 28px; margin-top: 14px; padding: 12px 0 14px; border-top: 1px solid var(--line); }
+}
 
 /* Секции */
 .section { padding: 88px 0; }
@@ -196,8 +213,10 @@ a { color: var(--accent); }
 @media (max-width: 900px) {
     .header__inner { flex-wrap: wrap; gap: 12px; padding: 14px 24px; }
     .menu-button { display: block; margin-left: auto; font-size: 26px; cursor: pointer; }
-    .nav, .header__user { display: none; width: 100%; flex-direction: column; gap: 12px; }
+    .nav, .header__user { display: none; flex: 0 0 100%; width: 100%; flex-direction: column; gap: 12px; }
     .menu-toggle:checked ~ .nav, .menu-toggle:checked ~ .header__user { display: flex; }
+    .header__user { align-items: flex-start; padding-top: 12px; border-top: 1px solid var(--line); }
+    .header__inner .nav { padding-top: 4px; }
     .hero__inner, .about, .contacts { grid-template-columns: 1fr; gap: 32px; }
     .grid--3 { grid-template-columns: 1fr; }
     .cta, .section__head { flex-direction: column; align-items: flex-start; }
