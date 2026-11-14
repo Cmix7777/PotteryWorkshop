@@ -14,7 +14,18 @@
                 <a asp-controller="Events" asp-action="Index" class="btn btn--outline-light">Смотреть расписание</a>
             </div>
         </div>
-        <img class="photo photo--dark" src="~/img/hero.jpg" alt="Руки мастера за гончарным кругом" />
+        <div class="hero-banner">
+            <!-- Рекомендую использовать event-first-pot.jpg или gallery-1.jpg -->
+            <img class="hero-banner__img" src="~/img/event-first-pot.jpg" alt="Создание первого горшка на гончарном круге" />
+            <div class="hero-banner__overlay"></div>
+            
+            <div class="hero-banner__promo">
+                <span class="overline">Спецпредложение</span>
+                <h3>−20% на первое занятие</h3>
+                <p class="muted small">Глина, фартук и обжиг уже включены в стоимость</p>
+                <a asp-controller="Booking" asp-action="Index" class="btn btn--small">Записаться со скидкой</a>
+            </div>
+        </div>
     </div>
 </section>
 
