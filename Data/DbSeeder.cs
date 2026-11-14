@@ -3,7 +3,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Data;
 
-/// <summary>Заполняет пустую базу тестовыми данными, чтобы сайт было что показать сразу после запуска.</summary>
+/// Заполняет пустую базу тестовыми данными, чтобы сайт было что показать сразу после запуска
 public static class DbSeeder
 {
     public static void Seed(AppDbContext db)
