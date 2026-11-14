@@ -1,6 +1,6 @@
 namespace PotteryWorkshop.Models;
 
-/// <summary>Регистрация пользователя на мероприятие (таблица event_registrations).</summary>
+/// Регистрация пользователя на мероприятие
 public class EventRegistration
 {
     public int Id { get; set; }
