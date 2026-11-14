@@ -7,7 +7,7 @@ using PotteryWorkshop.ViewModels;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Корзина и оформление заказа. Доступно только после входа.</summary>
+/// Корзина и оформление заказа
 [Authorize]
 public class CartController : BaseController
 {
