@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PotteryWorkshop.Models;
 
-/// <summary>Категория товаров: изделия, материалы, инструменты (таблица categories).</summary>
 public class Category
 {
     public int Id { get; set; }
