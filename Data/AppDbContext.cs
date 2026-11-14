@@ -3,7 +3,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Data;
 
-/// <summary>Контекст базы данных сайта. Каждый DbSet соответствует таблице из схемы БД.</summary>
+/// Контекст базы данных сайта. Каждый DbSet соответствует таблице из схемы БД
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
