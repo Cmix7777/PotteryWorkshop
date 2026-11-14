@@ -1,6 +1,6 @@
 namespace PotteryWorkshop.Models;
 
-/// <summary>Товар в корзине пользователя (таблица cart_items).</summary>
+
 public class CartItem
 {
     public int Id { get; set; }
