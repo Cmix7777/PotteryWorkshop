@@ -1,6 +1,6 @@
 namespace PotteryWorkshop.Models;
 
-/// <summary>Строка заказа (таблица order_items). Цена сохраняется на момент покупки.</summary>
+
 public class OrderItem
 {
     public int Id { get; set; }
@@ -13,6 +13,6 @@ public class OrderItem
 
     public int Quantity { get; set; }
 
-    /// <summary>Цена за штуку на момент оформления заказа.</summary>
+
     public int Price { get; set; }
 }
