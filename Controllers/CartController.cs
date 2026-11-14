@@ -69,7 +69,7 @@ public class CartController : BaseController
             return RedirectToAction(nameof(Index));
         }
 
-        // Телефон подставляем из профиля, чтобы не вводить заново
+        // Телефон из профиля
         var user = await _db.Users.FindAsync(userId);
         return View(new CheckoutViewModel { Phone = user?.Phone ?? "" });
     }
