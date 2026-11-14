@@ -11,7 +11,7 @@ using PotteryWorkshop.ViewModels;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Регистрация, вход и выход.</summary>
+/// Регистрация вход  выход
 public class AccountController : Controller
 {
     private readonly AppDbContext _db;
@@ -28,7 +28,7 @@ public class AccountController : Controller
         return View();
     }
 
-    /// <summary>Создаёт аккаунт с ролью "пользователь" и сразу выполняет вход.</summary>
+    /// роль"пользователь и вход.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model)
@@ -53,7 +53,7 @@ public class AccountController : Controller
             Phone = string.IsNullOrWhiteSpace(model.Phone) ? null : model.Phone.Trim(),
             Role = UserRole.User
         };
-        // В базу попадает только хеш пароля
+        // В бд хеш пароля
         user.PasswordHash = _hasher.HashPassword(user, model.Password);
 
         _db.Users.Add(user);
@@ -70,7 +70,7 @@ public class AccountController : Controller
         return View();
     }
 
-    /// <summary>Проверяет email и пароль. При ошибке не говорит, что именно неверно.</summary>
+    /// Проверка email и пароль
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
@@ -117,7 +117,7 @@ public class AccountController : Controller
         return View();
     }
 
-    /// <summary>Записывает в cookie id, имя, email и роль пользователя.</summary>
+    /// cookie
     private async Task SignInAsync(User user, bool remember)
     {
         var claims = new List<Claim>
