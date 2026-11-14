@@ -2,7 +2,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.ViewModels;
 
-/// <summary>Всё, что показывается на главной странице.</summary>
+
 public class HomeViewModel
 {
     public List<Service> Services { get; set; } = new();
@@ -11,7 +11,7 @@ public class HomeViewModel
     public List<Review> Reviews { get; set; } = new();
 }
 
-/// <summary>Карточка мероприятия на главной: само мероприятие и сколько осталось мест.</summary>
+
 public class EventCardViewModel
 {
     public Event Event { get; set; } = null!;
