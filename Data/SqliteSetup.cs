@@ -1,10 +1,4 @@
 namespace PotteryWorkshop.Data;
-
-/// <summary>
-/// Подключает библиотеку SQLite, которая уже есть в системе.
-/// На Windows это встроенный winsqlite3.dll, на Linux — libsqlite3.
-/// Вызывается один раз до первого обращения к базе.
-/// </summary>
 public static class SqliteSetup
 {
     private static bool _done;
