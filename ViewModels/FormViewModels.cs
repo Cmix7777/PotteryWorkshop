@@ -3,7 +3,6 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.ViewModels;
 
-/// <summary>Форма обратной связи на странице «Контакты».</summary>
 public class FeedbackViewModel
 {
     [Required(ErrorMessage = "Введите имя")]
@@ -25,7 +24,7 @@ public class FeedbackViewModel
     public string Message { get; set; } = "";
 }
 
-/// <summary>Оформление заказа: контактный телефон и комментарий.</summary>
+
 public class CheckoutViewModel
 {
     [Required(ErrorMessage = "Введите телефон для связи")]
@@ -38,7 +37,7 @@ public class CheckoutViewModel
     public string? Comment { get; set; }
 }
 
-/// <summary>Форма нового отзыва.</summary>
+
 public class ReviewFormViewModel
 {
     [Required(ErrorMessage = "Выберите, где вы были")]
@@ -54,7 +53,7 @@ public class ReviewFormViewModel
     [Display(Name = "Ваш отзыв")]
     public string Text { get; set; } = "";
 
-    /// <summary>Варианты для выпадающего списка «Где вы были».</summary>
+
     public static readonly string[] ServiceTypes =
     {
         "Занятия на гончарном круге",
@@ -64,7 +63,7 @@ public class ReviewFormViewModel
     };
 }
 
-/// <summary>Редактирование профиля в личном кабинете.</summary>
+
 public class ProfileViewModel
 {
     [Required(ErrorMessage = "Введите имя")]
@@ -79,7 +78,7 @@ public class ProfileViewModel
     public string Email { get; set; } = "";
 }
 
-/// <summary>Добавление и редактирование товара в админ-панели.</summary>
+
 public class ProductFormViewModel
 {
     public int Id { get; set; }
@@ -109,7 +108,7 @@ public class ProductFormViewModel
     public bool IsFeatured { get; set; }
 }
 
-/// <summary>Добавление занятия в расписание.</summary>
+
 public class LessonFormViewModel
 {
     [Required(ErrorMessage = "Выберите услугу")]
@@ -130,7 +129,7 @@ public class LessonFormViewModel
     public string Teacher { get; set; } = "";
 }
 
-/// <summary>Добавление мероприятия.</summary>
+
 public class EventFormViewModel
 {
     [Required(ErrorMessage = "Введите название")]
@@ -159,7 +158,6 @@ public class EventFormViewModel
     public int Price { get; set; }
 }
 
-/// <summary>Статистика для администратора.</summary>
 public class AdminStatsViewModel
 {
     public int UsersCount { get; set; }
