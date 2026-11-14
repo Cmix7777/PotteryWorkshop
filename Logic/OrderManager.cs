@@ -4,7 +4,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Logic;
 
-/// <summary>Модуль корзины и заказов: добавление в корзину и оформление заказа со всеми проверками.</summary>
+/// Модуль корзины и заказов: добавление в корзину и оформление заказа со всеми проверками
 public class OrderManager
 {
     private readonly AppDbContext _db;
@@ -14,7 +14,7 @@ public class OrderManager
         _db = db;
     }
 
-    /// <summary>Добавляет товар в корзину. Нельзя положить больше, чем есть на складе.</summary>
+    /// Добавляет товар в корзину. Нельзя положить больше, чем есть на складе
     public async Task<OperationResult> AddToCartAsync(int userId, int productId, int quantity)
     {
         if (quantity < 1)
@@ -49,7 +49,7 @@ public class OrderManager
         return OperationResult.Ok();
     }
 
-    /// <summary>Меняет количество товара в корзине. Ноль удаляет строку.</summary>
+    /// Меняет количество товара в корзине. Ноль удаляет строку
     public async Task<OperationResult> UpdateQuantityAsync(int userId, int cartItemId, int quantity)
     {
         var item = await _db.CartItems
@@ -78,10 +78,8 @@ public class OrderManager
         return OperationResult.Ok();
     }
 
-    /// <summary>
-    /// Оформляет заказ из корзины: проверяет остатки, сохраняет цены на момент покупки,
-    /// уменьшает остаток на складе и очищает корзину.
-    /// </summary>
+
+    /// Оформляется заказ из корзины
     public async Task<OperationResult> PlaceOrderAsync(int userId, string phone, string? comment)
     {
         var cart = await _db.CartItems
