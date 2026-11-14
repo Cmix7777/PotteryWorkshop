@@ -1,28 +1,22 @@
 namespace PotteryWorkshop.Models;
 
-/// <summary>Роль пользователя на сайте.</summary>
+/// Роль пользователя на сайте
 public enum UserRole
 {
-    /// <summary>Обычный зарегистрированный пользователь.</summary>
     User,
-    /// <summary>Модератор: расписание, мероприятия, записи.</summary>
     Moderator,
-    /// <summary>Администратор: полный доступ.</summary>
     Admin
 }
 
-/// <summary>Вид услуги мастерской.</summary>
+/// Вид услуги мастерской
 public enum ServiceKind
 {
-    /// <summary>Групповое занятие на гончарном круге.</summary>
     Lesson,
-    /// <summary>Разовый мастер-класс.</summary>
     MasterClass,
-    /// <summary>Индивидуальный урок с мастером.</summary>
     Individual
 }
 
-/// <summary>Статус записи на занятие.</summary>
+/// Статус записи на занятие
 public enum BookingStatus
 {
     New,
@@ -31,7 +25,7 @@ public enum BookingStatus
     Cancelled
 }
 
-/// <summary>Статус заказа в магазине.</summary>
+/// Статус заказа в магазине
 public enum OrderStatus
 {
     New,
@@ -41,7 +35,7 @@ public enum OrderStatus
     Cancelled
 }
 
-/// <summary>Статус отзыва.</summary>
+/// Статус отзыва
 public enum ReviewStatus
 {
     Moderation,
