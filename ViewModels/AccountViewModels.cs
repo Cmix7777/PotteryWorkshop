@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PotteryWorkshop.ViewModels;
 
-/// <summary>Данные формы регистрации. Атрибуты задают правила проверки полей.</summary>
+
 public class RegisterViewModel
 {
     [Required(ErrorMessage = "Введите имя")]
@@ -31,13 +31,13 @@ public class RegisterViewModel
     [Display(Name = "Повторите пароль")]
     public string ConfirmPassword { get; set; } = "";
 
-    /// <summary>Согласие на обработку персональных данных обязательно для регистрации.</summary>
+
     [Range(typeof(bool), "true", "true", ErrorMessage = "Нужно согласие на обработку персональных данных")]
     [Display(Name = "Согласен на обработку персональных данных")]
     public bool AcceptPersonalData { get; set; }
 }
 
-/// <summary>Данные формы входа.</summary>
+
 public class LoginViewModel
 {
     [Required(ErrorMessage = "Введите email")]
