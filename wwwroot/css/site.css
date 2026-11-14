@@ -395,3 +395,82 @@ a { color: var(--accent); }
     .photo--dark, .photo--big { height: 300px; }
 }
 .card__body > .badge { align-self: flex-start; }
+
+
+/* =========================================
+   Баннер в Hero-секции
+   ========================================= */
+.hero-banner {
+    position: relative;
+    border-radius: var(--radius); /* 14px из ваших переменных */
+    overflow: hidden;
+    height: 440px; /* Точно соответствует вашему классу .photo--dark */
+    box-shadow: 0 20px 40px rgba(61, 40, 23, 0.25); /* Тень в цвет --dark */
+}
+
+.hero-banner__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Градиент снизу вверх для читаемости текста (в стиле ваших .page-hero) */
+.hero-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(61, 40, 23, 0) 40%, rgba(61, 40, 23, 0.85) 100%);
+}
+
+/* Белая плашка с предложением (в стиле ваших .card) */
+.hero-banner__promo {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    background: var(--white);
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Переопределяем цвет overline внутри белой плашки для контраста */
+.hero-banner__promo .overline {
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.hero-banner__promo h3 {
+    color: var(--dark);
+    font-size: 22px;
+    margin: 0 0 4px;
+    line-height: 1.2;
+}
+
+.hero-banner__promo .btn {
+    align-self: flex-start;
+    margin-top: 8px;
+}
+
+/* Адаптив: синхронизируем с вашим существующим медиа-запросом для .photo--dark */
+@media (max-width: 900px) {
+    .hero-banner {
+        height: 300px; 
+    }
+    .hero-banner__promo {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        padding: 16px 20px;
+    }
+    .hero-banner__promo h3 {
+        font-size: 18px;
+    }
+    .hero-banner__promo .small {
+        font-size: 13px;
+    }
+}
