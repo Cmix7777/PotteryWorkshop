@@ -6,7 +6,7 @@ using PotteryWorkshop.ViewModels;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Главная страница и страница команды.</summary>
+/// Главная страница и страница команды
 public class HomeController : Controller
 {
     private readonly AppDbContext _db;
@@ -16,7 +16,6 @@ public class HomeController : Controller
         _db = db;
     }
 
-    /// <summary>Главная: услуги, ближайшие мероприятия, рекомендуемые товары и отзывы из базы.</summary>
     public async Task<IActionResult> Index()
     {
         var now = DateTime.Now;
@@ -28,7 +27,7 @@ public class HomeController : Controller
                 .Take(3)
                 .ToListAsync(),
 
-            // Свободные места = всего мест минус уже зарегистрированные
+            // Свободные места
             Events = await _db.Events
                 .Where(e => e.StartsAt > now)
                 .OrderBy(e => e.StartsAt)
@@ -47,7 +46,7 @@ public class HomeController : Controller
                 .Take(4)
                 .ToListAsync(),
 
-            // Только отзывы, прошедшие модерацию
+            // отзывы
             Reviews = await _db.Reviews
                 .Include(r => r.User)
                 .Where(r => r.Status == ReviewStatus.Published)
@@ -59,7 +58,7 @@ public class HomeController : Controller
         return View(model);
     }
 
-    /// <summary>Страница «О мастерской»: история, ценности и мастера.</summary>
+    /// О мастерской
     public IActionResult About()
     {
         return View();
@@ -71,7 +70,7 @@ public class HomeController : Controller
         return View(new FeedbackViewModel());
     }
 
-    /// <summary>Сохраняет сообщение из формы обратной связи, его увидит администратор.</summary>
+    /// Сохраняет сообщение формы
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Contacts(FeedbackViewModel model)
@@ -99,7 +98,7 @@ public class HomeController : Controller
         return View();
     }
 
-    /// <summary>Страница с распределением задач в команде (требование ТЗ, ссылка в подвале).</summary>
+    /// распределение задач в команде
     public IActionResult Team()
     {
         return View();
