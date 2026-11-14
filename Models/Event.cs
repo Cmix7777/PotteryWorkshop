@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PotteryWorkshop.Models;
 
-/// <summary>Мероприятие мастерской, например тематический мастер-класс (таблица events).</summary>
 public class Event
 {
     public int Id { get; set; }
