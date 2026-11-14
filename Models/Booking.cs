@@ -1,6 +1,6 @@
 namespace PotteryWorkshop.Models;
 
-/// <summary>Запись пользователя на занятие (таблица bookings).</summary>
+
 public class Booking
 {
     public int Id { get; set; }
