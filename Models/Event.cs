@@ -19,7 +19,7 @@ public class Event
 
     public int PlacesTotal { get; set; }
 
-    /// <summary>Цена участия в рублях.</summary>
+
     public int Price { get; set; }
 
     public string? PhotoUrl { get; set; }
