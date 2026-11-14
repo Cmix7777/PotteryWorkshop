@@ -7,10 +7,8 @@ using PotteryWorkshop.ViewModels;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>
-/// Админ-панель. Модератор работает с расписанием, мероприятиями и записями и видит отзывы и сообщения.
-/// Товары, заказы, пользователи, модерация отзывов и статистика доступны только администратору.
-/// </summary>
+/// Админ-п
+
 [Authorize(Roles = "Admin,Moderator")]
 public class AdminController : BaseController
 {
@@ -21,7 +19,7 @@ public class AdminController : BaseController
         _db = db;
     }
 
-    /// <summary>Главная админки: короткая сводка, статистика для администратора.</summary>
+    /// Главная
     public async Task<IActionResult> Index()
     {
         var now = DateTime.Now;
@@ -37,7 +35,7 @@ public class AdminController : BaseController
             LowStock = await _db.Products.Where(p => p.Stock <= 2).OrderBy(p => p.Stock).ToListAsync()
         };
 
-        // Самые популярные услуги по числу неотменённых записей
+        // популярные услуги по числу неотменённых записей
         var popular = await _db.Bookings
             .Where(b => b.Status != BookingStatus.Cancelled)
             .GroupBy(b => b.Lesson.Service.Title)
@@ -49,7 +47,7 @@ public class AdminController : BaseController
         return View(model);
     }
 
-    // ---------- Записи на занятия ----------
+    //Записи
 
     public async Task<IActionResult> Bookings()
     {
@@ -77,7 +75,7 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Bookings));
     }
 
-    // ---------- Расписание ----------
+    // Расписание
 
     public async Task<IActionResult> Lessons()
     {
@@ -132,7 +130,7 @@ public class AdminController : BaseController
             return RedirectToAction(nameof(Lessons));
         }
 
-        // Занятие с активными записями удалять нельзя, сначала нужно отменить записи
+        // удалять нельзя, нужно отменить записи
         if (lesson.Bookings.Any(b => b.Status != BookingStatus.Cancelled))
         {
             TempData["Error"] = "На занятие есть записи. Сначала отмените их в разделе «Записи».";
@@ -145,7 +143,7 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Lessons));
     }
 
-    // ---------- Мероприятия ----------
+    // Мероприятия
 
     public async Task<IActionResult> Events()
     {
@@ -197,7 +195,7 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Events));
     }
 
-    // ---------- Отзывы ----------
+    // Отзывы
 
     public async Task<IActionResult> Reviews()
     {
@@ -225,14 +223,14 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Reviews));
     }
 
-    // ---------- Сообщения ----------
+    // Сообщения
 
     public async Task<IActionResult> Messages()
     {
         return View(await _db.FeedbackMessages.OrderByDescending(m => m.CreatedAt).ToListAsync());
     }
 
-    // ---------- Товары (только администратор) ----------
+    // Товары / only админ
 
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Products()
@@ -319,7 +317,6 @@ public class AdminController : BaseController
             return RedirectToAction(nameof(Products));
         }
 
-        // Товар из оформленных заказов не удаляем, чтобы не испортить историю покупок
         if (await _db.OrderItems.AnyAsync(i => i.ProductId == id))
         {
             TempData["Error"] = "Товар есть в заказах, удалить его нельзя. Можно поставить остаток 0.";
@@ -332,7 +329,7 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Products));
     }
 
-    // ---------- Заказы (только администратор) ----------
+    // Заказы
 
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Orders()
@@ -375,7 +372,7 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Orders));
     }
 
-    // ---------- Пользователи и роли (только администратор) ----------
+    // Пользователи и роли
 
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Users()
@@ -404,7 +401,7 @@ public class AdminController : BaseController
         return RedirectToAction(nameof(Users));
     }
 
-    // ---------- Вспомогательные методы ----------
+    //Вспомогательные методы
 
     private async Task FillServicesAsync()
     {
