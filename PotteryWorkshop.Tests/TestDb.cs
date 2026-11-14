@@ -5,10 +5,7 @@ using PotteryWorkshop.Models;
 
 namespace PotteryWorkshop.Tests;
 
-/// <summary>
-/// Тестовая база SQLite в памяти. Для каждого теста создаётся новая чистая база,
-/// поэтому тесты не влияют друг на друга.
-/// </summary>
+
 public sealed class TestDb : IDisposable
 {
     private readonly SqliteConnection _connection;
