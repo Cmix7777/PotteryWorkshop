@@ -6,7 +6,7 @@ using PotteryWorkshop.Logic;
 
 namespace PotteryWorkshop.Controllers;
 
-/// <summary>Запись на занятия: расписание, запись, мои записи, отмена.</summary>
+/// Запись на занятия
 public class BookingController : BaseController
 {
     private readonly AppDbContext _db;
@@ -18,7 +18,7 @@ public class BookingController : BaseController
         _manager = manager;
     }
 
-    /// <summary>Расписание ближайших занятий. Можно отфильтровать по услуге.</summary>
+    /// ближайшие занятия фильтр по услуге
     public async Task<IActionResult> Index(int? serviceId)
     {
         var now = DateTime.Now;
@@ -58,7 +58,7 @@ public class BookingController : BaseController
         return RedirectToAction(nameof(Index));
     }
 
-    /// <summary>Записи текущего пользователя, новые сверху.</summary>
+    /// Записи пользователя
     [Authorize]
     public async Task<IActionResult> My()
     {
